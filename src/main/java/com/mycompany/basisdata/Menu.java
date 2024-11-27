@@ -9,12 +9,20 @@ package com.mycompany.basisdata;
  * @author sawun
  */
 public class Menu extends javax.swing.JFrame {
-
+    private final String CUST_EMAIL;
     /**
      * Creates new form Menu
      */
+    public Menu(String CUST_EMAIL) {
+        initComponents(); // Menginisialisasi komponen GUI
+        setLocationRelativeTo(null); // Memposisikan window di tengah layar
+        this.CUST_EMAIL = CUST_EMAIL; // Menyimpan email pelanggan
+    }
+    
     public Menu() {
-        initComponents();
+        initComponents(); // Menginisialisasi komponen GUI
+        setLocationRelativeTo(null); // Memposisikan window di tengah layar
+        this.CUST_EMAIL = ""; // Menyimpan nilai default (kosong) untuk email pelanggan
     }
 
     /**
