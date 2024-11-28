@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.util.Random;
+
 
 /**
  *
@@ -27,10 +29,12 @@ public class OrderUser extends javax.swing.JFrame {
             + "trustServerCertificate=true;"
             + "loginTimeout=30;";
       
-      private void establishConnection() {
+
+    public void establishConnection() {
     try {
-        connection = java.sql.DriverManager.getConnection(connectionUrl);
+        connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=TUGASAKHIRFINAL;encrypt=true;trustServerCertificate=true","sa","alfredorm123");
     } catch (SQLException e) {
+        System.out.println("Failed");
         Logger.getLogger(ProfileUser.class.getName()).log(Level.SEVERE, "Database connection error", e);
         JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
     }
@@ -57,8 +61,6 @@ public class OrderUser extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -77,7 +79,15 @@ public class OrderUser extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Select Menu (order 1 menu each time)");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBox1PopupMenuWillBecomeVisible(evt);
+            }
+        });
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -95,17 +105,24 @@ public class OrderUser extends javax.swing.JFrame {
             }
         });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setText("Payment Method");
-
-        jTextField1.setText("jTextField1");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Quantity");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBox2PopupMenuWillBecomeVisible(evt);
+            }
+        });
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -115,7 +132,22 @@ public class OrderUser extends javax.swing.JFrame {
         jLabel5.setText("Money:");
 
         jTextField2.setEditable(false);
-        jTextField2.setText("Rp 999999");
+        jTextField2.setText("click to display balance");
+        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField2FocusGained(evt);
+            }
+        });
+        jTextField2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jTextField2MouseWheelMoved(evt);
+            }
+        });
+        jTextField2.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTextField2ComponentShown(evt);
+            }
+        });
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -131,24 +163,22 @@ public class OrderUser extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)))
+                            .addComponent(jLabel5)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(154, 154, 154)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel1)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2)
                             .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE))))
                 .addContainerGap(144, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(237, 237, 237))
+                .addGap(240, 240, 240))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,11 +199,7 @@ public class OrderUser extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
+                .addGap(37, 37, 37)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -272,18 +298,184 @@ public class OrderUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+          establishConnection();
+
+    // Generate a random order ID
+    Random random = new Random();
+    int orderId = random.nextInt(1000000); // Generate a random ID (0 to 999999)
+
+    // Get the selected restaurant, menu, and quantity
+    String selectedRestaurant = (String) jComboBox1.getSelectedItem();
+    String selectedMenu = (String) jComboBox2.getSelectedItem();
+    int quantity = Integer.parseInt(jTextField1.getText()); // Assuming there's a text field for quantity
+
+    // Validate selections and inputs
+    if (selectedRestaurant == null || selectedMenu == null || quantity <= 0||selectedRestaurant==""||selectedMenu=="") {
+        JOptionPane.showMessageDialog(this, "Please select a restaurant, menu item, and enter a valid quantity!", 
+                                      "Input Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        // Fetch the price of the selected menu item
+        String priceQuery = "SELECT MENU_PRICE FROM MENU WHERE MENU_NAME = ?";
+        String jalanQuery = "SELECT CUST_JALAN FROM CUSTOMER WHERE ID_CUSTOMER = ?";
+        String kelurahanQuery = "SELECT CUST_KELURAHAN FROM CUSTOMER WHERE ID_CUSTOMER = ?";
+        String kecamatanQuery = "SELECT REST_KECAMATAN FROM RESTAURANT WHERE REST_KECAMATAN = ?";
+        String kodeposQuery = "SELECT CUST_KODE_POS FROM CUSTOMER WHERE ID_CUSTOMER = ?";
+
+        PreparedStatement jalanStatement = connection.prepareStatement(jalanQuery);
+        jalanStatement.setInt(1, 1); // Replace 1 with the actual customer ID
+
+        PreparedStatement kelurahanStatement = connection.prepareStatement(kelurahanQuery);
+        kelurahanStatement.setInt(1, 1); // Replace 1 with the actual customer ID
+
+        PreparedStatement kecamatanStatement = connection.prepareStatement(kecamatanQuery);
+        kecamatanStatement.setString(1, selectedRestaurant); // Replace with actual customer ID or restaurant data
+
+        PreparedStatement kodeposStatement = connection.prepareStatement(kodeposQuery);
+        kodeposStatement.setInt(1, 1); // Replace 1 with the actual customer ID
+
+        PreparedStatement priceStatement = connection.prepareStatement(priceQuery);
+        priceStatement.setString(1, selectedMenu);
+        ResultSet priceResult = priceStatement.executeQuery();
+        ResultSet jalanResult = jalanStatement.executeQuery();
+        ResultSet kelurahanResult = kelurahanStatement.executeQuery();
+        ResultSet kecamatanResult = kecamatanStatement.executeQuery();
+        ResultSet kodeposResult = kodeposStatement.executeQuery();
+
+        String jalan = "", kelurahan = "", kecamatan = "", kodepos = "";
+
+        if (jalanResult.next()) {
+            jalan = jalanResult.getString("CUST_JALAN");
+        }
+        if (kelurahanResult.next()) {
+            kelurahan = kelurahanResult.getString("CUST_KELURAHAN");
+        }
+        if (kecamatanResult.next()) {
+            kecamatan = kecamatanResult.getString("CUST_KECAMATAN");
+        }
+        if (kodeposResult.next()) {
+            kodepos = kodeposResult.getString("CUST_KODE_POS");
+        }
+
+        if (priceResult.next()) {
+            float price = priceResult.getFloat("MENU_PRICE");
+            float totalPrice = price * quantity; // Calculate total price
+
+            // Fetch the current balance
+            String balanceQuery = "SELECT BALANCE FROM CUSTOMER WHERE ID_CUSTOMER = ?";
+            PreparedStatement balanceStatement = connection.prepareStatement(balanceQuery);
+            balanceStatement.setInt(1, 1); // Replace 1 with the actual customer ID
+            ResultSet balanceResult = balanceStatement.executeQuery();
+
+            if (balanceResult.next()) {
+                double balance = balanceResult.getDouble("BALANCE");
+
+                // Check if the customer has enough balance
+                if (balance >= totalPrice) {
+                    // Deduct the total price from the balance
+                    double newBalance = balance - totalPrice;
+
+                    // Update the balance in the database
+                    String updateBalanceQuery = "UPDATE CUSTOMER SET BALANCE = ? WHERE ID_CUSTOMER = ?";
+                    PreparedStatement updateBalanceStatement = connection.prepareStatement(updateBalanceQuery);
+                    updateBalanceStatement.setDouble(1, newBalance);
+                    updateBalanceStatement.setInt(2, 1); // Replace 1 with the actual customer ID
+                    updateBalanceStatement.executeUpdate();
+
+                    // Insert the order into the ORDER table
+                    String orderQuery = "INSERT INTO \"ORDER\" (ID_ORDER, ORD_PRICE, ORD_QUANTITY, ORD_DATE, ORD_PAYMENT, ORD_STATUS, ORD_JALAN, ORD_KELURAHAN, ORD_KECAMATAN, ORD_KODE_POS, DRIVER_ID_DRIVER, DELIVERY_ID_DELIVERY) "
+                            + "VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    PreparedStatement orderStatement = connection.prepareStatement(orderQuery);
+                    orderStatement.setInt(1, orderId);
+                    orderStatement.setFloat(2, totalPrice); // ORD_PRICE
+                    orderStatement.setInt(3, quantity); // ORD_QUANTITY
+                    orderStatement.setString(4, "Credit Card"); // ORD_PAYMENT
+                    orderStatement.setString(5, "Pending"); // ORD_STATUS
+                    orderStatement.setString(6, jalan); // ORD_JALAN
+                    orderStatement.setString(7, kelurahan); // ORD_KELURAHAN
+                    orderStatement.setString(8, kecamatan); // ORD_KECAMATAN
+                    orderStatement.setString(9, kodepos); // ORD_KODE_POS
+                    orderStatement.setInt(10, 1); // DRIVER_ID_DRIVER
+                    orderStatement.setInt(11, 1); // DELIVERY_ID_DELIVERY
+                    orderStatement.executeUpdate();
+
+                    // Insert into CUSTOMER_ORDER table
+                    String customerOrderQuery = "INSERT INTO CUSTOMER_ORDER (CUSTOMER_ID_CUSTOMER, ORDER_ID_ORDER) VALUES (?, ?)";
+                    PreparedStatement customerOrderStatement = connection.prepareStatement(customerOrderQuery);
+                    customerOrderStatement.setInt(1, 1); // Replace 1 with actual customer ID
+                    customerOrderStatement.setInt(2, orderId);
+                    customerOrderStatement.executeUpdate();
+
+                    // Show success message
+                    JOptionPane.showMessageDialog(this, "Order placed successfully! Total: " + totalPrice, 
+                                                  "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    // Update the balance displayed in the UI
+                    jTextField2.setText(String.format("Rp %.2f", newBalance)); // Update balance in UI
+                } else {
+                    JOptionPane.showMessageDialog(this, "Insufficient balance. Please add funds.",
+                                                  "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Customer not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Menu item not found.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        Logger.getLogger(OrderUser.class.getName()).log(Level.SEVERE, null, ex);
+        JOptionPane.showMessageDialog(this, "An error occurred while processing the order.", 
+                                      "Database Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
-        try{
+          
+
+        
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+       
+
+        
+        
+
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+     
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jTextField2MouseWheelMoved
+        // TODO add your handling code here:
+        
+
+    }//GEN-LAST:event_jTextField2MouseWheelMoved
+
+    private void jTextField2ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTextField2ComponentShown
+       
+
+    }//GEN-LAST:event_jTextField2ComponentShown
+
+    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
+        // TODO add your handling code here:
+         // TODO add your handling code here:
+               establishConnection();
+
+         try{
             PreparedStatement pstmt = connection.prepareStatement("SELECT BALANCE FROM customer WHERE ID_CUSTOMER= ?");
-//            pstmt.setInt(1,id customer yang diinput);
+            pstmt.setInt(1,1);
          ResultSet rs=pstmt.executeQuery();
          if (rs.next()) {
             // Ambil saldo pelanggan
@@ -299,51 +491,48 @@ public class OrderUser extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(OrderUser.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }//GEN-LAST:event_jTextField2FocusGained
 
-        
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void jComboBox1PopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBox1PopupMenuWillBecomeVisible
         // TODO add your handling code here:
-        try {
-        // Clear the previous items in jComboBox2
-        jComboBox2.removeAllItems();
-        
-        // Get selected restaurant
-        
-        // Query for menu items based on selected restaurant
-        String query ="SELECT MENU.MENU_NAME, RESTAURANT.RESTAURANT_NAME " +
-               "FROM MENU " +
-               "JOIN RESTAURANT ON MENU.RESTAURANT_ID_RESTAURANT = RESTAURANT.ID_RESTAURANT " +
-               "WHERE RESTAURANT.RESTAURANT_NAME =" + jComboBox1.getSelectedItem();
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                
-                ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()) {
-                    jComboBox2.addItem(resultSet.getString("menu_item"));
-                }
-                resultSet.close();
-            }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-        
-
-    }//GEN-LAST:event_jComboBox2ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-       String query="SELECT REST_NAME FROM RESTAURANT";
+          establishConnection();
+        String query="SELECT REST_NAME FROM RESTAURANT";
         try(PreparedStatement preparedStatement=connection.prepareStatement(query)){
             ResultSet resultSet =preparedStatement.executeQuery();
             while (resultSet.next()) {
-                jComboBox1.addItem(resultSet.getString("restaurant_name"));
+                jComboBox1.addItem(resultSet.getString("rest_name"));
             }
             resultSet.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jComboBox1PopupMenuWillBecomeVisible
+
+    private void jComboBox2PopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBox2PopupMenuWillBecomeVisible
+        // TODO add your handling code here:
+         establishConnection();
+        String query = "SELECT men.MENU_NAME, RESTAURANT.REST_NAME " +
+               "FROM MENU men " +
+               "JOIN RESTAURANT ON men.RESTAURANT_ID_RESTAURANT = RESTAURANT.ID_RESTAURANT " +
+               "WHERE RESTAURANT.REST_NAME = ?";
+    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+    preparedStatement.setString(1, jComboBox1.getSelectedItem().toString());
+    
+    ResultSet resultSet = preparedStatement.executeQuery();
+    jComboBox2.removeAllItems(); // Clear previous items
+    while (resultSet.next()) {
+        jComboBox2.addItem(resultSet.getString("MENU_NAME")); // Use correct column name
+    }
+    resultSet.close();
+}        catch (SQLException ex) {
+             Logger.getLogger(OrderUser.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }//GEN-LAST:event_jComboBox2PopupMenuWillBecomeVisible
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -385,12 +574,10 @@ public class OrderUser extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
