@@ -4,11 +4,37 @@
  */
 package com.mycompany.basisdata;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author pinkg
  */
 public class OrderUser extends javax.swing.JFrame {
+     private java.sql.Connection connection;
+
+      private final String connectionUrl =
+            "jdbc:sqlserver://PC-001:1433;"
+            + "database= TUGASAKHIRFINAL;"
+            + "user=sa;"
+            + "password= alfredorm123;"
+            + "encrypt=true;"
+            + "trustServerCertificate=true;"
+            + "loginTimeout=30;";
+      
+      private void establishConnection() {
+    try {
+        connection = java.sql.DriverManager.getConnection(connectionUrl);
+    } catch (SQLException e) {
+        Logger.getLogger(ProfileUser.class.getName()).log(Level.SEVERE, "Database connection error", e);
+        JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
+    }
+}
 
     /**
      * Creates new form OrderUser
@@ -52,6 +78,11 @@ public class OrderUser extends javax.swing.JFrame {
         jLabel2.setText("Select Menu (order 1 menu each time)");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Select Restaurant");
@@ -75,6 +106,11 @@ public class OrderUser extends javax.swing.JFrame {
         jLabel3.setText("Quantity");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Money:");
 
@@ -186,16 +222,15 @@ public class OrderUser extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 21, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(33, 33, 33))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(16, 16, 16))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(16, 16, 16)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(69, 69, 69))))
@@ -246,7 +281,69 @@ public class OrderUser extends javax.swing.JFrame {
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
+        try{
+            PreparedStatement pstmt = connection.prepareStatement("SELECT BALANCE FROM customer WHERE ID_CUSTOMER= ?");
+//            pstmt.setInt(1,id customer yang diinput);
+         ResultSet rs=pstmt.executeQuery();
+         if (rs.next()) {
+            // Ambil saldo pelanggan
+            double balance = rs.getDouble("balance");
+
+            // Perbarui JTextField dengan saldo pelanggan
+            jTextField2.setText(String.format("Rp %f", balance));
+        } else {
+            JOptionPane.showMessageDialog(this, "Pelanggan tidak ditemukan.");
+        }
+    
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+        try {
+        // Clear the previous items in jComboBox2
+        jComboBox2.removeAllItems();
+        
+        // Get selected restaurant
+        
+        // Query for menu items based on selected restaurant
+        String query ="SELECT MENU.MENU_NAME, RESTAURANT.RESTAURANT_NAME " +
+               "FROM MENU " +
+               "JOIN RESTAURANT ON MENU.RESTAURANT_ID_RESTAURANT = RESTAURANT.ID_RESTAURANT " +
+               "WHERE RESTAURANT.RESTAURANT_NAME =" + jComboBox1.getSelectedItem();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    jComboBox2.addItem(resultSet.getString("menu_item"));
+                }
+                resultSet.close();
+            }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+        
+
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+       String query="SELECT REST_NAME FROM RESTAURANT";
+        try(PreparedStatement preparedStatement=connection.prepareStatement(query)){
+            ResultSet resultSet =preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                jComboBox1.addItem(resultSet.getString("restaurant_name"));
+            }
+            resultSet.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
