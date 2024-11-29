@@ -11,6 +11,7 @@ package com.mycompany.basisdata;
 public class BasisData {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        
+       
     }
 }

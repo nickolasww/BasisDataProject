@@ -5,7 +5,10 @@
 package com.mycompany.basisdata;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,7 +16,16 @@ import javax.swing.JOptionPane;
  * @author pinkg
  */
 public class ProfileUser extends javax.swing.JFrame {
-
+     private java.sql.Connection connection;
+  public void establishConnection() {
+    try {
+        connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=TUGASAKHIRFINAL;encrypt=true;trustServerCertificate=true","sa","alfredorm123");
+    } catch (SQLException e) {
+        System.out.println("Failed");
+        Logger.getLogger(ProfileUser.class.getName()).log(Level.SEVERE, "Database connection error", e);
+        JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
+    }
+}
     /**
      * Creates new form ProfileUser
      */
@@ -88,13 +100,17 @@ public class ProfileUser extends javax.swing.JFrame {
 
         jTextField5.setEditable(false);
         jTextField5.setText("value");
+        jTextField5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField5FocusGained(evt);
+            }
+        });
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
             }
         });
 
-        jTextField4.setText("jTextField1");
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
@@ -103,7 +119,6 @@ public class ProfileUser extends javax.swing.JFrame {
 
         jLabel4.setText("KodePos");
 
-        jTextField3.setText("jTextField1");
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -112,7 +127,6 @@ public class ProfileUser extends javax.swing.JFrame {
 
         jLabel3.setText("Kelurahan");
 
-        jTextField2.setText("jTextField1");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -127,7 +141,6 @@ public class ProfileUser extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Phone number");
 
-        jTextField1.setText("jTextField1");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -189,7 +202,7 @@ public class ProfileUser extends javax.swing.JFrame {
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addGap(88, 88, 88)
+                .addGap(83, 83, 83)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -275,11 +288,7 @@ public class ProfileUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-      PreparedStatement updateStatement = connection.prepareStatement("SELECT balance FROM CUSTOMER WHERE ID_CUSTOMER= ?");
-     //updateStatement.setInt(1,put idccustomer here);
-      updateStatement.executeUpdate();
-
-        //wewe tolong set connectionnya ya makasi
+       
         
         
         
@@ -290,12 +299,12 @@ public class ProfileUser extends javax.swing.JFrame {
         String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
         int convert=Integer.parseInt(input);
         try{
-           PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE id= ?");
+           PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
            updateStatement.setFloat(1,convert);
-//           updateStatement.setFloat(2,customer id); add based on user login
-            updateStatement.executeUpdate();
-            if(rowsUpdated>0){
+           updateStatement.setInt(2,1);
+            if(convert>0){
                      JOptionPane.showMessageDialog(this,"Saldo telah ditambahkan sebanyak " + convert);
+                     updateStatement.executeUpdate();
 
             }
             else{
@@ -336,14 +345,17 @@ public class ProfileUser extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        establishConnection();
         try{
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE Customers SET first_name = ?, surname = ?, cust_phone = ?, cust_email = ? WHERE cust_id = ?");
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET first_name = ?, surname = ?, cust_phone = ?, cust_email = ? WHERE ID_CUSTOMER = ?");
             updateStatement.setString(1,jTextField1.getText());
             updateStatement.setString(2, jTextField2.getText());
             updateStatement.setString(3, jTextField3.getText());
             updateStatement.setString(4, jTextField4.getText());
-//            updateStatement.setInt(5,) ngambil dari user ession ( kan ntar loginnya pake id + tolong adjust connnection)!!
+            updateStatement.setInt(5,1); 
             updateStatement.executeUpdate();
+           JOptionPane.showMessageDialog(this,"Succesfully Updated");
+
             
         
         }
@@ -351,6 +363,31 @@ public class ProfileUser extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField5FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField5FocusGained
+        // TODO add your handling code here:
+         establishConnection(); 
+       
+         try{
+            PreparedStatement pstmt = connection.prepareStatement("SELECT BALANCE FROM customer WHERE ID_CUSTOMER= ?");
+            pstmt.setInt(1,1);
+         ResultSet rs=pstmt.executeQuery();
+         if (rs.next()) {
+            // Ambil saldo pelanggan
+            double balance = rs.getDouble("balance");
+
+            // Perbarui JTextField dengan saldo pelanggan
+            jTextField5.setText(String.format("Rp %f", balance));
+        } else {
+            JOptionPane.showMessageDialog(this, "Pelanggan tidak ditemukan.");
+        }
+    
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jTextField5FocusGained
 
     /**
      * @param args the command line arguments
