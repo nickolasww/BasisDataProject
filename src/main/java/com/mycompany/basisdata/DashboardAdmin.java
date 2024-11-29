@@ -1122,32 +1122,132 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void jBtnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteActionPerformed
         // TODO add your handling code here:
-        try {
-            String preparedString = "DELETE FROM " + section + " WHERE " + jlField1.getText() + " = ?";
-            PreparedStatement dropStatement = connection.prepareStatement(preparedString);
-            dropStatement.setString(1, jtfField1.getText());
+try {
+    // Query to delete data from the ORDER table that depends on DELIVERY_ID_DELIVERY
+    String deleteOrderTableQuery = "DELETE FROM \"ORDER\" WHERE DELIVERY_ID_DELIVERY = ?";
+    // Query to delete data from the DELIVERY table
+    String deleteDeliveryQuery = "DELETE FROM DELIVERY WHERE ID_DELIVERY = ?";
+    
+    // Query to delete data from MENU_ORDER table
+    String deleteMenuOrderQuery = "DELETE FROM MENU_ORDER WHERE MENU_ID_MENU IN (SELECT MENU_ID_MENU FROM MENU WHERE MENU_ID_MENU = ?)";
+    // Query to delete data from MENU_REVIEW table
+    String deleteMenuReviewQuery = "DELETE FROM MENU_REVIEW WHERE REVIEW_ID_REVIEW IN (SELECT REVIEW_ID_REVIEW FROM REVIEW WHERE CUSTOMER_ID_CUSTOMER = ?)";
+    
+    // Query to delete data from REVIEW table
+    String deleteReviewQuery = "DELETE FROM REVIEW WHERE CUSTOMER_ID_CUSTOMER = ?";
+    // Query to delete data from PAYMENT table
+    String deletePaymentQuery = "DELETE FROM PAYMENT WHERE CUSTOMER_ID_CUSTOMER = ?";
+    // Query to delete data from CUSTOMER_ORDER table
+    String deleteOrderQuery = "DELETE FROM CUSTOMER_ORDER WHERE CUSTOMER_ID_CUSTOMER = ?";
+    // Query to delete data from CUSTOMER_RESTAURANT table
+    String deleteRestaurantQuery = "DELETE FROM CUSTOMER_RESTAURANT WHERE CUSTOMER_ID_CUSTOMER = ?";
+    // Query to delete data from the PARENT CUSTOMER table
+    String deleteParentQuery = "DELETE FROM " + section + " WHERE " + jlField1.getText() + " = ?";
+    
+    // Delete data from the ASSIGNEDTODELIVER table (or the related table referencing DRIVER_ID_DRIVER)
+    String deleteAssignedToDeliverQuery = "DELETE FROM RESTAURANT WHERE DRIVER_ID_DRIVER = ?";
+    
+   
+    /// tidak bisa untuk delete Driver
+    // 1. Delete from ORDER table where the driver is referenced
+    String deleteOrder2Query = "DELETE FROM \"ORDER\" WHERE DRIVER_ID_DRIVER = ?";
+    PreparedStatement deleteOrder2Statement = connection.prepareStatement(deleteOrder2Query);
+    deleteOrder2Statement.setString(1, jtfField1.getText());
+    deleteOrder2Statement.executeUpdate();
 
-            int confirmation = JOptionPane.showConfirmDialog(
-                this,
-                "Are you sure you want to delete?",
-                "Delete Confirmation",
-                JOptionPane.YES_NO_OPTION
-            );
+    // 2. Delete from CUSTOMER_RESTAURANT table if needed (adjust based on actual relationship)
+     String deleteCustomerRestaurantQuery = "DELETE FROM RESTAURANT WHERE DRIVER_ID_DRIVER = ?";
+    PreparedStatement deleteCustomerRestaurantStatement = connection.prepareStatement(deleteCustomerRestaurantQuery);
+    deleteCustomerRestaurantStatement.setString(1, jtfField1.getText());
+    deleteCustomerRestaurantStatement.executeUpdate();
 
-            if(confirmation == JOptionPane.YES_OPTION){
-                dropStatement.execute();
-                System.out.println("Successfully deleted from "+ section + " ID no: " + jtfField1.getText());
-                JOptionPane.showMessageDialog(this, "Successfully deleted.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                resetField();
-            } else {
-                System.out.println("Delete aborted.");
-                JOptionPane.showMessageDialog(this, "Delete aborted.", "Cancel Deletion", JOptionPane.INFORMATION_MESSAGE);
-            }
+    // 3. Delete from DELIVERY table where the driver is referenced
+    String deleteDelivery2Query = "DELETE FROM DELIVERY WHERE DRIVER_ID_DRIVER = ?";
+    PreparedStatement deleteDelivery2Statement = connection.prepareStatement(deleteDelivery2Query);
+    deleteDelivery2Statement.setString(1, jtfField1.getText());
+    deleteDelivery2Statement.executeUpdate();
 
-        } catch (SQLException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error occurred while deleting.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    // 4. Finally, delete from the DRIVER table
+    String deleteDriverQuery = "DELETE FROM DRIVER WHERE ID_DRIVER = ?";
+    PreparedStatement deleteDriverStatement = connection.prepareStatement(deleteDriverQuery);
+    deleteDriverStatement.setString(1, jtfField1.getText());
+    deleteDriverStatement.executeUpdate();
+    ///
+   
+    // 1. Delete data from the MENU_ORDER table
+    PreparedStatement deleteMenuOrderStatement = connection.prepareStatement(deleteMenuOrderQuery);
+    deleteMenuOrderStatement.setString(1, jtfField1.getText());
+    deleteMenuOrderStatement.executeUpdate();
+
+    // 2. Delete data from the MENU_REVIEW table
+    PreparedStatement deleteMenuReviewStatement = connection.prepareStatement(deleteMenuReviewQuery);
+    deleteMenuReviewStatement.setString(1, jtfField1.getText());
+    deleteMenuReviewStatement.executeUpdate();
+
+    // 3. Delete data from the REVIEW table
+    PreparedStatement deleteReviewStatement = connection.prepareStatement(deleteReviewQuery);
+    deleteReviewStatement.setString(1, jtfField1.getText());
+    deleteReviewStatement.executeUpdate();
+
+    // 4. Delete data from the PAYMENT table
+    PreparedStatement deletePaymentStatement = connection.prepareStatement(deletePaymentQuery);
+    deletePaymentStatement.setString(1, jtfField1.getText());
+    deletePaymentStatement.executeUpdate();
+
+    // 5. Delete data from the CUSTOMER_ORDER table
+    PreparedStatement deleteOrderStatement = connection.prepareStatement(deleteOrderQuery);
+    deleteOrderStatement.setString(1, jtfField1.getText());
+    deleteOrderStatement.executeUpdate();
+
+    // 6. Delete data from the CUSTOMER_RESTAURANT table
+    PreparedStatement deleteRestaurantStatement = connection.prepareStatement(deleteRestaurantQuery);
+    deleteRestaurantStatement.setString(1, jtfField1.getText());
+    deleteRestaurantStatement.executeUpdate();
+
+    // Delete data from the ORDER table that depends on DELIVERY_ID_DELIVERY
+    PreparedStatement deleteOrderTableStatement = connection.prepareStatement(deleteOrderTableQuery);
+    deleteOrderTableStatement.setString(1, jtfField1.getText());
+    deleteOrderTableStatement.executeUpdate();
+    
+    // Delete data from the DELIVERY table
+    PreparedStatement deleteDeliveryStatement = connection.prepareStatement(deleteDeliveryQuery);
+    deleteDeliveryStatement.setString(1, jtfField1.getText());
+    deleteDeliveryStatement.executeUpdate();
+    
+    // 
+    PreparedStatement deleteAssignedToDeliverStatement = connection.prepareStatement(deleteAssignedToDeliverQuery);
+    deleteAssignedToDeliverStatement.setString(1, jtfField1.getText());
+    deleteAssignedToDeliverStatement.executeUpdate();
+
+    // Confirm the deletion of data from the CUSTOMER table
+    int confirmation = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to delete?",
+        "Delete Confirmation",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirmation == JOptionPane.YES_OPTION) {
+        // 7. Delete data from the CUSTOMER table
+        PreparedStatement deleteParentStatement = connection.prepareStatement(deleteParentQuery);
+        deleteParentStatement.setString(1, jtfField1.getText());
+        deleteParentStatement.executeUpdate();
+
+        // Display success message
+        System.out.println("Successfully deleted from " + section + " ID no: " + jtfField1.getText());
+        JOptionPane.showMessageDialog(this, "Successfully deleted.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        resetField();
+    } else {
+        System.out.println("Delete aborted.");
+        JOptionPane.showMessageDialog(this, "Delete aborted.", "Cancel Deletion", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+} catch (SQLException e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error occurred while deleting.", "Error", JOptionPane.ERROR_MESSAGE);
+}
+
+
     }//GEN-LAST:event_jBtnDeleteActionPerformed
 
     //Empty Check Register Button
@@ -1260,6 +1360,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 insertStatement.setFloat(4, Float.parseFloat(jtfField4.getText()));
                 insertStatement.setString(5, jtfField5.getText());
                 break;
+                case "Review": 
+                insertStatement.setString(1, jtfField1.getText());
+                insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
+                insertStatement.setString(3, jtfField1.getText());
+                insertStatement.setString(4, jtfField1.getText());
+                break;
+              
             }
 
             int confirmation = JOptionPane.showConfirmDialog(
