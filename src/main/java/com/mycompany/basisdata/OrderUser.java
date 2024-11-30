@@ -32,7 +32,7 @@ public class OrderUser extends javax.swing.JFrame {
 
     public void establishConnection() {
     try {
-        connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=TUGASAKHIRFINAL;encrypt=true;trustServerCertificate=true","sa","alfredorm123");
+        connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=DUMMYDATATEST;encrypt=true;trustServerCertificate=true","sa","alfredorm123");
     } catch (SQLException e) {
         System.out.println("Failed");
         Logger.getLogger(ProfileUser.class.getName()).log(Level.SEVERE, "Database connection error", e);
@@ -521,9 +521,13 @@ public class OrderUser extends javax.swing.JFrame {
     
     ResultSet resultSet = preparedStatement.executeQuery();
     jComboBox2.removeAllItems(); // Clear previous items
+    int rowCount = 0;
+
     while (resultSet.next()) {
-        jComboBox2.addItem(resultSet.getString("MENU_NAME")); // Use correct column name
-    }
+            String menuName = resultSet.getString("MENU_NAME"); // Correct column name
+            System.out.println("Adding Menu: " + menuName); // Debugging
+            jComboBox2.addItem(menuName);
+            rowCount++;    }
     resultSet.close();
 }        catch (SQLException ex) {
              Logger.getLogger(OrderUser.class.getName()).log(Level.SEVERE, null, ex);
