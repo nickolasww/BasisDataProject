@@ -15,11 +15,9 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
-    private String CUST_EMAIL;
-    public Menu(String CUST_EMAIL) {
+    public Menu() {
         initComponents(); // Menginisialisasi komponen GUI
         setLocationRelativeTo(null); // Memposisikan window di tengah layar
-        this.CUST_EMAIL= CUST_EMAIL; // Menyimpan email pelanggan
     }
 
     /**
@@ -32,7 +30,6 @@ public class Menu extends javax.swing.JFrame {
     private void initComponents() {
 
         logoHL = new javax.swing.JLabel();
-        DeliveryButton = new javax.swing.JButton();
         OrderButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         MyProfileButton = new javax.swing.JButton();
@@ -43,14 +40,6 @@ public class Menu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        DeliveryButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        DeliveryButton.setText("Delivery");
-        DeliveryButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeliveryButtonActionPerformed(evt);
-            }
-        });
-
         OrderButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         OrderButton.setText("Order");
         OrderButton.addActionListener(new java.awt.event.ActionListener() {
@@ -60,7 +49,6 @@ public class Menu extends javax.swing.JFrame {
         });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\sawun\\Documents\\NetBeansProjects\\BasisData\\src\\main\\java\\Images\\SuperLogo645.png")); // NOI18N
         jLabel1.setToolTipText("");
 
         MyProfileButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -116,7 +104,6 @@ public class Menu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(DeliveryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(OrderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MyHistoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MyProfileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -141,8 +128,6 @@ public class Menu extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addComponent(OrderButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(DeliveryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(MyHistoryButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(MyProfileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,22 +146,24 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MyProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyProfileButtonActionPerformed
-        ProfileUser DProf = new ProfileUser(CUST_EMAIL);
-        DProf.setVisible(true);
-        this.dispose();
+        this.setVisible(false);
+        ProfileUser nextframe=new ProfileUser();
+        nextframe.setVisible(true);
     }//GEN-LAST:event_MyProfileButtonActionPerformed
 
     private void MyHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyHistoryButtonActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        HistoryUser nextframe=new HistoryUser();
+        nextframe.setVisible(true);
     }//GEN-LAST:event_MyHistoryButtonActionPerformed
 
     private void OrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrderButtonActionPerformed
         // TODO add your handling code here:
+    this.setVisible(false);  // or this.dispose() to close the current frame
+    OrderUser nextframe=new OrderUser();
+    nextframe.setVisible(true);
     }//GEN-LAST:event_OrderButtonActionPerformed
-
-    private void DeliveryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeliveryButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DeliveryButtonActionPerformed
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
          int responseLogout = JOptionPane.showConfirmDialog(this, "Do you want to log out?", "Confirm Log Out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -223,17 +210,14 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        SuperLogin superLogin = new SuperLogin();
-        String email = superLogin.getUserEmail();    
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu(email).setVisible(true);
+                new Menu().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton DeliveryButton;
     private javax.swing.JButton LogOutButton;
     private javax.swing.JButton MyHistoryButton;
     private javax.swing.JButton MyProfileButton;
