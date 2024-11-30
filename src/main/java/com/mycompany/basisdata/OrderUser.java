@@ -19,7 +19,6 @@ import java.util.Random;
  */
 public class OrderUser extends javax.swing.JFrame {
      private java.sql.Connection connection;
-
       private final String connectionUrl =
             "jdbc:sqlserver://PC-001:1433;"
             + "database= TUGASAKHIRFINAL;"
@@ -29,7 +28,10 @@ public class OrderUser extends javax.swing.JFrame {
             + "trustServerCertificate=true;"
             + "loginTimeout=30;";
       
-
+ public OrderUser() {
+        initComponents();
+        // Other initializations, use userEmail where needed
+    }
     public void establishConnection() {
     try {
         connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=DUMMYDATATEST;encrypt=true;trustServerCertificate=true","sa","alfredorm123");
@@ -43,10 +45,7 @@ public class OrderUser extends javax.swing.JFrame {
     /**
      * Creates new form OrderUser
      */
-    public OrderUser() {
-        initComponents();
-    }
-
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -434,6 +433,10 @@ public class OrderUser extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+           Menu menu=new Menu();
+           menu.setVisible(true);  // This will show the Menu frame
+           
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
