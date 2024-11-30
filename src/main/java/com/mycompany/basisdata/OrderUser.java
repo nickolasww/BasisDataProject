@@ -479,13 +479,12 @@ public class OrderUser extends javax.swing.JFrame {
             // Ambil saldo pelanggan
             double balance = rs.getDouble("balance");
 
-            // Perbarui JTextField dengan saldo pelanggan
-            jTextField2.setText(String.format("Rp %f", balance));
-        } else {
-            JOptionPane.showMessageDialog(this, "Pelanggan tidak ditemukan.");
-        }
-    
-        
+                // Perbarui JTextField dengan saldo pelanggan
+                jTextField2.setText(String.format("Rp %f", balance));
+            } else {
+                JOptionPane.showMessageDialog(this, "Pelanggan tidak ditemukan.");
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(OrderUser.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -1462,6 +1462,7 @@ try {
             insertStatement.setString(6, jtfField6.getText()); // menu desc
             insertStatement.setInt(7, Integer.parseInt(jtfField7.getText())); // restaurant_ID_RESTAURANT
             break;
+            
         case "order":
             preparedString = "INSERT INTO ORDER (ID_ORDER, ORD_PRICE, ORD_QUANTITY, ORD_DATE, ORD_PAYMENT, ORD_STATUS, "
                            + "ORD_JALAN, ORD_KELURAHAN, ORD_KECAMATAN ,ORD_KODE_POS,DRIVER_ID_DRIVER, DELIVERY_ID_DELIVERY) VALUES (?,?, ?, ?, ?, ?, ?,?,?,?,?,?)";
@@ -1479,6 +1480,7 @@ try {
              insertStatement.setInt(11, Integer.parseInt(jtfField11.getText())); // DRIVER_ID_DRIVER 
              insertStatement.setInt(12, Integer.parseInt(jtfField12.getText())); //DELIVERY_ID_DELIVERY
              break; 
+             
         case "delivery":
             preparedString = "INSERT INTO Delivery (ID_DELIVERY,DELIV_TIME, DELIV_COST, DRIVER_ID_DRIVER) "
                     + "VALUES (?,?, ?, ?,)";
