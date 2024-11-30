@@ -1401,7 +1401,6 @@ try {
     
     private void jBtnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRegisterActionPerformed
         // TODO add your handling code here:
-        // TODO add your handling code here:
 try {
     if (checkEmpty()) {
         JOptionPane.showMessageDialog(this,
@@ -1410,44 +1409,34 @@ try {
             JOptionPane.ERROR_MESSAGE);
         return;
     }
-    String preparedString = "INSERT INTO " + section + " VALUES (";
-    for (int i = 0; i < fieldCount; i++) {
-        if (i == fieldCount - 1) {
-            preparedString += "?)";
-        } else {
-            preparedString += "?, ";
-        }
-    }
 
-    PreparedStatement insertStatement = connection.prepareStatement(preparedString);
-    
-    // Menyesuaikan case dengan parameter yang benar
-    switch (section) {
-        case "CUSTOMER":
-            insertStatement.setString(1, jtfField1.getText());
-            insertStatement.setString(2, jtfField2.getText());
-            insertStatement.setString(3, jtfField3.getText());
-            insertStatement.setInt(4, Integer.parseInt(jtfField4.getText()));
-            insertStatement.setString(5, jtfField5.getText());
-            insertStatement.setString(6, jtfField6.getText());
-            insertStatement.setString(7, jtfField7.getText());
+    PreparedStatement insertStatement;
+    String tableName = section; // Nama tabel
+    String preparedString = "INSERT INTO " + section + " VALUES (";
+
+    // Menyesuaikan query INSERT berdasarkan tabel
+    switch (section.toLowerCase()) {
+        case "customer":
+            preparedString = "INSERT INTO CUSTOMER (id_Customer, first_name, surname, cust_phone, cust_email, cust_jalan, "
+                           + "cust_kelurahan, cust_kode_pos, cust_payment, balance) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            insertStatement = connection.prepareStatement(preparedString);
+            insertStatement.setString(1, jtfField1.getText()); // ID
+            insertStatement.setString(2, jtfField2.getText()); // first_name
+            insertStatement.setString(3, jtfField3.getText()); // surname
+            insertStatement.setString(4, jtfField4.getText()); // cust_phone
+            insertStatement.setString(5, jtfField5.getText()); // cust_email
+            insertStatement.setString(6, jtfField6.getText()); // cust_jalan
+            insertStatement.setString(7, jtfField7.getText()); // cust_kelurahan
+            insertStatement.setString(8, jtfField8.getText()); // cust_kode_pos
+            insertStatement.setString(9, jtfField9.getText()); // cust_payment
+            insertStatement.setFloat(10, Float.parseFloat(jtfField10.getText())); // balance
             break;
-        case "RESTAURANT":
-            insertStatement.setString(1, jtfField1.getText());
-            insertStatement.setString(2, jtfField2.getText());
-            insertStatement.setString(3, jtfField3.getText());
-            insertStatement.setString(4, jtfField4.getText());
-            insertStatement.setString(5, jtfField5.getText());
-            insertStatement.setFloat(6, Float.parseFloat(jtfField6.getText()));
-            insertStatement.setString(7, jtfField7.getText());
-            insertStatement.setFloat(8, Float.parseFloat(jtfField8.getText()));
-            insertStatement.setString(9, jtfField9.getText());
-            insertStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
-            insertStatement.setString(11, jtfField11.getText());
-            insertStatement.setString(12, jtfField12.getText());
-            insertStatement.setString(13, jtfField13.getText());
-            break;
-        case "MENU":
+
+        case "restaurant":
+            preparedString = "INSERT INTO RESTAURANT (ID_RESTAURANT,REST_NAME, REST_JALAN, REST_KELURAHAN, REST_KECAMATAN, "
+                           + "REST_KODE_POS, REST_STATUS, REST_RATING, REST_EMAIL, REST_PHONE, DRIVER_ID_DRIVER) "
+                           + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            insertStatement = connection.prepareStatement(preparedString);
             insertStatement.setString(1, jtfField1.getText());
             insertStatement.setString(2, jtfField2.getText());
             insertStatement.setString(3, jtfField3.getText());
@@ -1457,69 +1446,109 @@ try {
             insertStatement.setString(7, jtfField7.getText());
             insertStatement.setString(8, jtfField8.getText());
             insertStatement.setString(9, jtfField9.getText());
-            insertStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
+            insertStatement.setString(10, jtfField10.getText());
             insertStatement.setString(11, jtfField11.getText());
-            insertStatement.setString(12, jtfField12.getText());
             break;
-        case "ORDER":
-            insertStatement.setString(1, jtfField1.getText());
-            insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
-            insertStatement.setString(3, jtfField3.getText());
-            insertStatement.setString(4, jtfField4.getText());
+
+        case "menu":
+            preparedString = "INSERT INTO MENU (ID_MENU,MENU_CATEGORY, MENU_NAME, MENU_STATUS, MENU_PRICE, MENU_DESC, "
+                           + "RESTAURANT_ID_RESTAURANT) VALUES (?,?, ?, ?, ?, ?, ?)";
+            insertStatement = connection.prepareStatement(preparedString);
+            insertStatement.setString(1, jtfField1.getText()); // id
+            insertStatement.setString(2, jtfField2.getText()); // Menu Category
+            insertStatement.setString(3, jtfField3.getText()); // Menu_name 
+            insertStatement.setString(4, jtfField4.getText()); // menu status 
+            insertStatement.setFloat(5, Float.parseFloat(jtfField5.getText())); // menu price 
+            insertStatement.setString(6, jtfField6.getText()); // menu desc
+            insertStatement.setInt(7, Integer.parseInt(jtfField7.getText())); // restaurant_ID_RESTAURANT
             break;
-        case "DELIVERY":
-            insertStatement.setString(1, jtfField1.getText());
-            insertStatement.setString(2, jtfField2.getText());
-            insertStatement.setString(3, jtfField3.getText());
-            insertStatement.setString(4, jtfField4.getText());
-            insertStatement.setString(5, jtfField5.getText());
-            insertStatement.setInt(6, Integer.parseInt(jtfField6.getText()));
+        case "order":
+            preparedString = "INSERT INTO ORDER (ID_ORDER, ORD_PRICE, ORD_QUANTITY, ORD_DATE, ORD_PAYMENT, ORD_STATUS, "
+                           + "ORD_JALAN, ORD_KELURAHAN, ORD_KECAMATAN ,ORD_KODE_POS,DRIVER_ID_DRIVER, DELIVERY_ID_DELIVERY) VALUES (?,?, ?, ?, ?, ?, ?,?,?,?,?,?)";
+             insertStatement = connection.prepareStatement(preparedString); 
+             insertStatement.setInt(1, Integer.parseInt(jtfField1.getText())); //id
+             insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText())); // ORD Price
+             insertStatement.setInt(3, Integer.parseInt(jtfField3.getText())); // Quantity
+             insertStatement.setString(4, jtfField4.getText()); // Date
+             insertStatement.setString(5, jtfField5.getText()); // Payment
+             insertStatement.setString(6, jtfField6.getText()); // Status
+             insertStatement.setString(7, jtfField7.getText()); // Jalan 
+             insertStatement.setString(8, jtfField8.getText());// keluarahan 
+             insertStatement.setString(9, jtfField9.getText()); //Kecamatan 
+             insertStatement.setString(10, jtfField10.getText()); // ORD_KODE_POS
+             insertStatement.setInt(11, Integer.parseInt(jtfField11.getText())); // DRIVER_ID_DRIVER 
+             insertStatement.setInt(12, Integer.parseInt(jtfField12.getText())); //DELIVERY_ID_DELIVERY
+             break; 
+        case "delivery":
+            preparedString = "INSERT INTO Delivery (ID_DELIVERY,DELIV_TIME, DELIV_COST, DRIVER_ID_DRIVER) "
+                    + "VALUES (?,?, ?, ?,)";
+            insertStatement = connection.prepareStatement(preparedString); 
+            insertStatement.setInt(1, Integer.parseInt(jtfField1.getText())); // ID_DELIVERY
+            insertStatement.setInt(2, Integer.parseInt(jtfField2.getText())); // DELIV_TIME
+            insertStatement.setFloat(3, Float.parseFloat(jtfField3.getText())); // DELIV_COST
+            insertStatement.setInt(4, Integer.parseInt(jtfField4.getText())); // DRIVER_ID_DRIVER
             break;
-        case "DRIVER":
-            insertStatement.setString(1, jtfField1.getText());
-            insertStatement.setString(2, jtfField2.getText());
-            insertStatement.setString(3, jtfField3.getText());
-            insertStatement.setString(4, jtfField4.getText());
-            insertStatement.setString(5, jtfField1.getText());  // mungkin ada kesalahan di sini
+        case "driver":
+            preparedString = "INSERT INTO Delivery (ID_Driver, DRIV_NAME, DRIV_PHONE, DRIVE_EMAIL, DRIV_RATING, DRIV_PLAT,DRIV_SALARY) "
+                    + "VALUES (?,?, ?, ?,?,?,?)";
+            insertStatement = connection.prepareStatement(preparedString);
+            insertStatement.setInt(1, Integer.parseInt(jtfField1.getText())); 
+            insertStatement.setString(2, jtfField2.getText()); // DRIV_NAME
+            insertStatement.setString(3, jtfField3.getText()); // Phone
+            insertStatement.setString(4, jtfField4.getText()); // email
+            insertStatement.setFloat(5, Float.parseFloat(jtfField5.getText())); // Rating
+            insertStatement.setString(6, (jtfField6.getText())); // plat
+            insertStatement.setFloat(7, Float.parseFloat(jtfField7.getText())); // salary
             break;
-        case "PAYMENT":
-            insertStatement.setString(1, jtfField1.getText());
-            insertStatement.setString(2, jtfField2.getText());
-            insertStatement.setString(3, jtfField3.getText());
-            insertStatement.setString(4, jtfField4.getText());
-            insertStatement.setString(5, jtfField5.getText());
-            insertStatement.setString(6, jtfField6.getText());
-            insertStatement.setString(7, jtfField7.getText());
+        case "Payment":
+             preparedString = "INSERT INTO Delivery (ID_PAYMENT, PAYMENT_METHOD, PAYMENT_AMOUNT, PAYMENT_STATUS, "
+                     + "RESTAURANT_ID_RESTAURANT, CUSTOMER_ID_CUSTOMER) "
+                    + "VALUES (?,?, ?, ?,?,?)";
+            insertStatement = connection.prepareStatement(preparedString);
+            insertStatement.setInt(1, Integer.parseInt(jtfField1.getText())); //payment-id
+            insertStatement.setString(2, jtfField2.getText()); // Method
+            insertStatement.setFloat(3, Float.parseFloat(jtfField3.getText())); // amount
+            insertStatement.setString(4, jtfField4.getText()); // status
+            insertStatement.setInt(5, Integer.parseInt(jtfField5.getText())); // Restaurant-id
+            insertStatement.setInt(6, Integer.parseInt(jtfField6.getText())); // customer-id
+            insertStatement.setInt(7, Integer.parseInt(jtfField7.getText())); // delivery-id
             break;
-        case "Review":
-            insertStatement.setString(1, jtfField1.getText());
-            insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
-            insertStatement.setString(3, jtfField1.getText());
-            insertStatement.setString(4, jtfField1.getText());
+        case "review": 
+            preparedString = "INSERT INTO Delivery (ID_REVIEW, REV_RATING, REV_COMMENT, CUSTOMER_ID_CUSTOMER,"
+                    + "RESTAURANT_ID_RESTAURANT) "
+                    + "VALUES (?,?, ?, ?,?)";
+            insertStatement = connection.prepareStatement(preparedString);
+            insertStatement.setInt(1, Integer.parseInt(jtfField1.getText())); //review-id
+            insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText())); // rating
+            insertStatement.setString(3, jtfField3.getText()); // comment
+            insertStatement.setInt(4, Integer.parseInt(jtfField4.getText())); // Customer_id
+            insertStatement.setInt(5, Integer.parseInt(jtfField5.getText())); // Restaurant-id
             break;
+        default:
+            throw new IllegalArgumentException("Unknown section: " + section);
     }
 
+    // Konfirmasi sebelum mengeksekusi
     int confirmation = JOptionPane.showConfirmDialog(
         this,
-        "Are you sure you want to register new entry?",
-        "Register Confirmation",
+        "Are you sure you want to add a new entry?",
+        "Insert Confirmation",
         JOptionPane.YES_NO_OPTION
     );
 
     if (confirmation == JOptionPane.YES_OPTION) {
-        insertStatement.execute();
-        System.out.println("Successfully registered new entry to " + section + " ID no: " + jtfField1.getText());
-        JOptionPane.showMessageDialog(this, "Successfully registered.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        insertStatement.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Insert successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
         resetField();
     } else {
-        System.out.println("Register aborted.");
-        JOptionPane.showMessageDialog(this, "Register aborted.", "Cancel Register", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Insert aborted.", "Cancel", JOptionPane.INFORMATION_MESSAGE);
     }
 
-} catch (SQLException e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(this, "Error occurred while registering.", "Error", JOptionPane.ERROR_MESSAGE);
+} catch (SQLException ex) {
+    Logger.getLogger(DashboardAdmin.class.getName()).log(Level.SEVERE, null, ex);
+    JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
+
 
     }//GEN-LAST:event_jBtnRegisterActionPerformed
 
