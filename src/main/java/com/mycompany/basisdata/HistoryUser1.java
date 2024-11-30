@@ -886,12 +886,6 @@ public class HistoryUser1 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBackActionPerformed
-        this.setVisible(false);  
-        Menu nextframe=new Menu();
-        nextframe.setVisible(true);
-    }//GEN-LAST:event_jBtnBackActionPerformed
-
     private void jtfKeywordsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfKeywordsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfKeywordsActionPerformed
@@ -938,54 +932,59 @@ public class HistoryUser1 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonFilterTopActionPerformed
 
-    private void jtfKeywords1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfKeywords1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfKeywords1ActionPerformed
+    private void jComboBoxTop2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTop2ActionPerformed
 
-    private void jBtnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearch1ActionPerformed
-      
-    }//GEN-LAST:event_jBtnSearch1ActionPerformed
-
-    private void jBtnRefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRefresh1ActionPerformed
-      
-    }//GEN-LAST:event_jBtnRefresh1ActionPerformed
-
-    private void jtfField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfField14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfField14ActionPerformed
-
-    private void jBtnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDelete1ActionPerformed
-       
-    }//GEN-LAST:event_jBtnDelete1ActionPerformed
-
-    private void jComboBoxTop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTop1ActionPerformed
-
-    }//GEN-LAST:event_jComboBoxTop1ActionPerformed
-
-    private void jComboBoxSort1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSort1ActionPerformed
-        //        setComboBoxModel();
-    }//GEN-LAST:event_jComboBoxSort1ActionPerformed
-
-    private void jRadioAscending1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioAscending1ActionPerformed
-      
-    }//GEN-LAST:event_jRadioAscending1ActionPerformed
-
-    private void jRadioDescending1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioDescending1ActionPerformed
-
-    }//GEN-LAST:event_jRadioDescending1ActionPerformed
-
-    private void jButtonSort1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSort1ActionPerformed
-     
-    }//GEN-LAST:event_jButtonSort1ActionPerformed
+    }//GEN-LAST:event_jComboBoxTop2ActionPerformed
 
     private void jButtonFilterTop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFilterTop1ActionPerformed
 
     }//GEN-LAST:event_jButtonFilterTop1ActionPerformed
 
-    private void jComboBoxTop2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTop2ActionPerformed
+    private void jButtonSort1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSort1ActionPerformed
 
+    }//GEN-LAST:event_jButtonSort1ActionPerformed
 
-    }//GEN-LAST:event_jComboBoxTop2ActionPerformed
+    private void jRadioDescending1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioDescending1ActionPerformed
+
+    }//GEN-LAST:event_jRadioDescending1ActionPerformed
+
+    private void jRadioAscending1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioAscending1ActionPerformed
+
+    }//GEN-LAST:event_jRadioAscending1ActionPerformed
+
+    private void jComboBoxSort1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSort1ActionPerformed
+        //        setComboBoxModel();
+    }//GEN-LAST:event_jComboBoxSort1ActionPerformed
+
+    private void jComboBoxTop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTop1ActionPerformed
+
+    }//GEN-LAST:event_jComboBoxTop1ActionPerformed
+
+    private void jBtnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDelete1ActionPerformed
+
+    }//GEN-LAST:event_jBtnDelete1ActionPerformed
+
+    private void jtfField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfField14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfField14ActionPerformed
+
+    private void jBtnRefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRefresh1ActionPerformed
+
+    }//GEN-LAST:event_jBtnRefresh1ActionPerformed
+
+    private void jBtnSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSearch1ActionPerformed
+
+    }//GEN-LAST:event_jBtnSearch1ActionPerformed
+
+    private void jtfKeywords1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfKeywords1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfKeywords1ActionPerformed
+
+    private void jBtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBackActionPerformed
+        this.setVisible(false);
+        Menu nextframe=new Menu();
+        nextframe.setVisible(true);
+    }//GEN-LAST:event_jBtnBackActionPerformed
 
     /**
      * @param args the command line arguments

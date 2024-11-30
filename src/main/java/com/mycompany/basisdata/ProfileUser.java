@@ -338,106 +338,99 @@ public class ProfileUser extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-
-        String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
-        int convert=Integer.parseInt(input);
-        try{
-           PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
-           updateStatement.setFloat(1,convert);
-           updateStatement.setInt(2,1);
-            if(convert>0){
-                     JOptionPane.showMessageDialog(this,"Saldo telah ditambahkan sebanyak " + convert);
-                     updateStatement.executeUpdate();
-
-            }
-            else{
-                JOptionPane.showMessageDialog(this,"unvalid.");
-
-            }
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-                }
-        //wewe tolong set connectionnya ya makasi
-        
-        
-        
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void ButtonTopUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTopUpActionPerformed
-        // TODO add your handling code here:
-                String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
-        int convert=Integer.parseInt(input);
-        try{
-           PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
-           updateStatement.setFloat(1,convert);
-           updateStatement.setInt(2,1);
-            if(convert>0){
-                     JOptionPane.showMessageDialog(this,"Saldo telah ditambahkan sebanyak " + convert);
-                     updateStatement.executeUpdate();
-
-            }
-            else{
-                JOptionPane.showMessageDialog(this,"unvalid.");
-
-            }
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-                }
-
-        
-    }//GEN-LAST:event_ButtonTopUpActionPerformed
-
-    private void PhoneNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhoneNumberFieldActionPerformed
-        // TODO add your handling code here:
-        String phonenumber=PhoneNumberField.getText();
-        
-    }//GEN-LAST:event_PhoneNumberFieldActionPerformed
-
-    private void AlamatFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlamatFieldActionPerformed
-        // TODO add your handling code here:
-        String alamat=AlamatField.getText();
-
-    }//GEN-LAST:event_AlamatFieldActionPerformed
-
-    private void KelurahanFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KelurahanFieldActionPerformed
-        // TODO add your handling code here:
-     String kelurahan=KelurahanField.getText();
-
-    }//GEN-LAST:event_KelurahanFieldActionPerformed
-
-    private void KodePosFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KodePosFieldActionPerformed
-        // TODO add your handling code here:
-       String kodepos=KodePosField.getText();
-
-    }//GEN-LAST:event_KodePosFieldActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        Menu nextframe=new Menu();
+        nextframe.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateActionPerformed
         // TODO add your handling code here:
-establishConnection();
+        establishConnection();
         try{
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET first_name = ?, surname = ?, cust_phone = ?, cust_email = ? WHERE ID_CUSTOMER = ?");
             updateStatement.setString(1,PhoneNumberField.getText());
             updateStatement.setString(2, AlamatField.getText());
             updateStatement.setString(3, KelurahanField.getText());
             updateStatement.setString(4, KodePosField.getText());
-            updateStatement.setInt(5,1); 
+            updateStatement.setInt(5,1);
             updateStatement.executeUpdate();
-           JOptionPane.showMessageDialog(this,"Succesfully Updated");
+            JOptionPane.showMessageDialog(this,"Succesfully Updated");
         }
         catch (SQLException e){
             e.printStackTrace();
         }
-
     }//GEN-LAST:event_ButtonUpdateActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.setVisible(false);
-        Menu nextframe=new Menu();
-        nextframe.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void PhoneNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhoneNumberFieldActionPerformed
+        // TODO add your handling code here:
+        String phonenumber=PhoneNumberField.getText();
+
+    }//GEN-LAST:event_PhoneNumberFieldActionPerformed
+
+    private void AlamatFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlamatFieldActionPerformed
+        // TODO add your handling code here:
+        String alamat=AlamatField.getText();
+    }//GEN-LAST:event_AlamatFieldActionPerformed
+
+    private void KelurahanFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KelurahanFieldActionPerformed
+        // TODO add your handling code here:
+        String kelurahan=KelurahanField.getText();
+    }//GEN-LAST:event_KelurahanFieldActionPerformed
+
+    private void KodePosFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KodePosFieldActionPerformed
+        // TODO add your handling code here:
+        String kodepos=KodePosField.getText();
+    }//GEN-LAST:event_KodePosFieldActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+
+        String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
+        int convert=Integer.parseInt(input);
+        try{
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
+            updateStatement.setFloat(1,convert);
+            updateStatement.setInt(2,1);
+            if(convert>0){
+                JOptionPane.showMessageDialog(this,"Saldo telah ditambahkan sebanyak " + convert);
+                updateStatement.executeUpdate();
+
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"unvalid.");
+
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        //wewe tolong set connectionnya ya makasi
+
+    }//GEN-LAST:event_jTextField5ActionPerformed
+
+    private void ButtonTopUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTopUpActionPerformed
+        // TODO add your handling code here:
+        String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
+        int convert=Integer.parseInt(input);
+        try{
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
+            updateStatement.setFloat(1,convert);
+            updateStatement.setInt(2,1);
+            if(convert>0){
+                JOptionPane.showMessageDialog(this,"Saldo telah ditambahkan sebanyak " + convert);
+                updateStatement.executeUpdate();
+
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"unvalid.");
+
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_ButtonTopUpActionPerformed
 
     /**
      * @param args the command line arguments

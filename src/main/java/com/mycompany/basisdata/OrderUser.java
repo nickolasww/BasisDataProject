@@ -270,10 +270,6 @@ public class OrderUser extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.setVisible(false);  
         Menu nextframe=new Menu();
@@ -284,56 +280,57 @@ public class OrderUser extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             PreparedStatement pstmt = connection.prepareStatement("SELECT BALANCE FROM customer WHERE ID_CUSTOMER= ?");
-//            pstmt.setInt(1,id customer yang diinput);
-         ResultSet rs=pstmt.executeQuery();
-         if (rs.next()) {
-            // Ambil saldo pelanggan
-            double balance = rs.getDouble("balance");
+            //            pstmt.setInt(1,id customer yang diinput);
+            ResultSet rs=pstmt.executeQuery();
+            if (rs.next()) {
+                // Ambil saldo pelanggan
+                double balance = rs.getDouble("balance");
 
-            // Perbarui JTextField dengan saldo pelanggan
-            jTextField2.setText(String.format("Rp %f", balance));
-        } else {
-            JOptionPane.showMessageDialog(this, "Pelanggan tidak ditemukan.");
-        }
-    
-        
+                // Perbarui JTextField dengan saldo pelanggan
+                jTextField2.setText(String.format("Rp %f", balance));
+            } else {
+                JOptionPane.showMessageDialog(this, "Pelanggan tidak ditemukan.");
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(OrderUser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
         try {
-        // Clear the previous items in jComboBox2
-        jComboBox2.removeAllItems();
-        
-        // Get selected restaurant
-        
-        // Query for menu items based on selected restaurant
-        String query ="SELECT MENU.MENU_NAME, RESTAURANT.RESTAURANT_NAME " +
-               "FROM MENU " +
-               "JOIN RESTAURANT ON MENU.RESTAURANT_ID_RESTAURANT = RESTAURANT.ID_RESTAURANT " +
-               "WHERE RESTAURANT.RESTAURANT_NAME =" + jComboBox1.getSelectedItem();
+            // Clear the previous items in jComboBox2
+            jComboBox2.removeAllItems();
+
+            // Get selected restaurant
+
+            // Query for menu items based on selected restaurant
+            String query ="SELECT MENU.MENU_NAME, RESTAURANT.RESTAURANT_NAME " +
+            "FROM MENU " +
+            "JOIN RESTAURANT ON MENU.RESTAURANT_ID_RESTAURANT = RESTAURANT.ID_RESTAURANT " +
+            "WHERE RESTAURANT.RESTAURANT_NAME =" + jComboBox1.getSelectedItem();
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                
+
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     jComboBox2.addItem(resultSet.getString("menu_item"));
                 }
                 resultSet.close();
             }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-        
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
 
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-       String query="SELECT REST_NAME FROM RESTAURANT";
+        String query="SELECT REST_NAME FROM RESTAURANT";
         try(PreparedStatement preparedStatement=connection.prepareStatement(query)){
             ResultSet resultSet =preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -343,7 +340,7 @@ public class OrderUser extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
