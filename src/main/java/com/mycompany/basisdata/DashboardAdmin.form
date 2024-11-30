@@ -582,6 +582,9 @@
                     <Component class="javax.swing.JTextField" name="jtfField8">
                     </Component>
                     <Component class="javax.swing.JTextField" name="jtfField9">
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtfField9ActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="jtfField10">
                     </Component>

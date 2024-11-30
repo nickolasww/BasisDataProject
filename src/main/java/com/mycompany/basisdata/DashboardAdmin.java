@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
@@ -302,6 +304,12 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jtfField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfField6ActionPerformed(evt);
+            }
+        });
+
+        jtfField9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfField9ActionPerformed(evt);
             }
         });
 
@@ -998,113 +1006,266 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
         // TODO add your handling code here:
-        PreparedStatement updateStatement;
-        String preparedString = "UPDATE " + section +" SET ";
-        for (int i = 0; i < fieldCount; i++) {
-            String labelAccessor = "jlField" + Integer.toString(i+1);
-            String labelText = jlMap.get(labelAccessor).getText();
-            if (i == fieldCount-1){
-                preparedString += labelText + " = ?";
-                continue;
-            }
-            preparedString += labelText + " = ?, ";
-        }
-        preparedString += "WHERE " + jlField1.getText() + " = ?";
-        System.out.println(preparedString);
+ PreparedStatement updateStatement;
+String tableName = section; // Nama tabel yang akan diperbarui
+String preparedString = "UPDATE " + tableName + " SET ";
 
-        try {
-            updateStatement = connection.prepareStatement(preparedString);
-            switch (section) {
-                case "CUSTOMER":
-                updateStatement.setString(1, jtfField1.getText());
-                updateStatement.setString(2, jtfField2.getText());
-                updateStatement.setString(3, jtfField3.getText());
-                updateStatement.setInt(4, Integer.parseInt(jtfField4.getText()));
-                updateStatement.setString(5, jtfField5.getText());
-                updateStatement.setString(6, jtfField6.getText());
-                updateStatement.setString(7, jtfField7.getText());
-                updateStatement.setString(8, jtfField8.getText());
-                break;
-                case "RESTAURANT":
-                updateStatement.setString(1, jtfField1.getText());
-                updateStatement.setString(2, jtfField2.getText());
-                updateStatement.setString(3, jtfField3.getText());
-                updateStatement.setString(4, jtfField4.getText());
-                updateStatement.setString(5, jtfField5.getText());
-                updateStatement.setFloat(6, Float.parseFloat(jtfField6.getText()));
-                updateStatement.setString(7, jtfField7.getText());
-                updateStatement.setFloat(8, Float.parseFloat(jtfField8.getText()));
-                updateStatement.setString(9, jtfField9.getText());
-                updateStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
-                updateStatement.setString(11, jtfField11.getText());
-                updateStatement.setString(12, jtfField12.getText());
-                updateStatement.setString(13, jtfField13.getText());
-                updateStatement.setString(14, jtfField1.getText());
-                break;
-                case "MENU":
-                updateStatement.setString(1, jtfField1.getText());
-                updateStatement.setString(2, jtfField2.getText());
-                updateStatement.setString(3, jtfField3.getText());
-                updateStatement.setString(4, jtfField4.getText());
-                updateStatement.setString(5, jtfField5.getText());
-                updateStatement.setString(6, jtfField6.getText());
-                updateStatement.setString(7, jtfField7.getText());
-                updateStatement.setString(8, jtfField8.getText());
-                updateStatement.setString(9, jtfField9.getText());
-                updateStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
-                updateStatement.setString(11, jtfField11.getText());
-                updateStatement.setString(12, jtfField12.getText());
-                updateStatement.setString(13, jtfField1.getText());
-                break;
-                case "ORDER":
-                updateStatement.setString(1, jtfField1.getText());
-                updateStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
-                updateStatement.setString(3, jtfField3.getText());
-                updateStatement.setString(4, jtfField4.getText());
-                updateStatement.setString(5, jtfField1.getText());
-                break;
-                case "DELIVERY":
-                updateStatement.setString(1, jtfField1.getText());
-                updateStatement.setString(2, jtfField2.getText());
-                updateStatement.setString(3, jtfField3.getText());
-                updateStatement.setString(4, jtfField4.getText());
-                updateStatement.setString(5, jtfField5.getText());
-                updateStatement.setInt(6, Integer.parseInt(jtfField6.getText()));
-                updateStatement.setString(7, jtfField1.getText());
-                break;
-                case "DRIVER":
-                updateStatement.setString(1, jtfField1.getText());
-                updateStatement.setString(2, jtfField2.getText());
-                updateStatement.setString(3, jtfField3.getText());
-                updateStatement.setString(4, jtfField4.getText());
-                updateStatement.setString(5, jtfField1.getText());
-                break;
-                case "PAYMENT":
-                updateStatement.setString(1, jtfField1.getText());
-                updateStatement.setString(2, jtfField2.getText());
-                updateStatement.setString(3, jtfField3.getText());
-                updateStatement.setString(4, jtfField4.getText());
-                updateStatement.setString(5, jtfField5.getText());
-                updateStatement.setString(6, jtfField6.getText());
-                updateStatement.setString(7, jtfField7.getText());
-                break;
-                case "REVIEW":
-                
-                break;
-            }
-            updateStatement.executeUpdate();
-            System.out.println("Successfully save edit.");
-            JOptionPane.showMessageDialog(this, "Successfully saved edit.", "Success", JOptionPane.INFORMATION_MESSAGE);
+preparedString += "WHERE " + jlField1.getText() + " = ?"; // Sesuaikan nama kolom primary key
+System.out.println(preparedString);
 
-            for (int i = 1; i < fieldCount; i++){
-                String textFieldAccessor = "jtfField" + Integer.toString(i+1);
-                jtfMap.get(textFieldAccessor).setEditable(false);
-            }
-            jBtnSave.setEnabled(false);
-        } catch (SQLException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error occurred while saving edit.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+try {
+    updateStatement = connection.prepareStatement(preparedString);
+
+    // Jumlah field tetap berdasarkan tabel
+    switch (section.toLowerCase()) {
+        case "customer":
+            updateStatement = connection.prepareStatement(
+            "UPDATE CUSTOMER SET first_name = ?, surname = ?, cust_phone = ?, cust_email = ?, "
+            + "cust_jalan = ?, cust_kelurahan = ?, cust_kode_pos = ?, cust_payment = ?, balance = ? "
+            + "WHERE ID_CUSTOMER = ?"
+            );
+             updateStatement.setString(1, jtfField2.getText());  // first_name
+            updateStatement.setString(2, jtfField3.getText());  // surname
+            updateStatement.setString(3, jtfField4.getText());  // cust_phone
+            updateStatement.setString(4, jtfField5.getText());  // cust_email
+            updateStatement.setString(5, jtfField6.getText());  // cust_jalan
+            updateStatement.setString(6, jtfField7.getText());  // cust_kelurahan
+            updateStatement.setString(7, jtfField8.getText());  // cust_kode_pos
+            updateStatement.setString(8, jtfField9.getText());  // cust_payment
+            updateStatement.setFloat(9, Float.parseFloat(jtfField10.getText()));  // balance
+            updateStatement.setInt(10, Integer.parseInt(jtfField1.getText())); // ID_CUSTOMER
+            break;
+
+        case "restaurant":
+             updateStatement = connection.prepareStatement(
+            "UPDATE RESTAURANT SET REST_NAME= ?, REST_JALAN = ?, REST_KELURAHAN = ?, REST_KECAMATAN = ?, REST_KODE_POS = ?, REST_STATUS = ?"
+            + "REST_RATING = ?, REST_EMAIL = ?, REST_PHONE = ?, DRIVER_ID_DRIVER = ?"
+                );
+            updateStatement.setString(1, jtfField2.getText());
+            updateStatement.setString(2, jtfField3.getText());
+            updateStatement.setString(3, jtfField4.getText());
+            updateStatement.setString(4, jtfField5.getText());
+            updateStatement.setString(5, jtfField6.getText());
+            updateStatement.setString(6, jtfField7.getText());
+            updateStatement.setString(7, jtfField8.getText());
+            updateStatement.setString(8, jtfField9.getText());
+            updateStatement.setString(9, jtfField10.getText());
+            updateStatement.setString(10, jtfField11.getText());
+            updateStatement.setString(11, jtfField1.getText());
+            break;
+
+        case "menu":
+         updateStatement = connection.prepareStatement(
+            "UPDATE MENU SET MENU_CATEGORY= ?, MENU_NAME = ?, MENU_STATUS = ?, MENU_PRICE = ?, MENU_DESC = ?, RESTAURANT_ID_RESTAURANT = ?"
+            + "WHERE ID_MENU = ? "
+            );
+            updateStatement.setString(1, jtfField2.getText()); // Menu Category
+            updateStatement.setString(2, jtfField3.getText()); // Menu_name 
+            updateStatement.setString(3, jtfField4.getText()); // menu status 
+            updateStatement.setFloat(4, Float.parseFloat(jtfField5.getText())); // menu price 
+            updateStatement.setString(5, jtfField6.getText()); // menu desc
+            updateStatement.setInt(6, Integer.parseInt( jtfField7.getText())); // restaurant_ID_RESTAURANT 
+            updateStatement.setInt(7, Integer.parseInt(jtfField1.getText())); // ID_CUSTOMER
+            break;
+
+        case "order":
+            updateStatement = connection.prepareStatement(
+            "UPDATE ORDER SET ORD_PRICE = ?, ORD_QUANTITY = ?, ORD_DATE = ?, ORD_PAYMENT = ?, ORD_STATUS = ?, "
+            + "ORD_JALAN =? , ORD_KELURAHAN =?, ORD_KECAMATAN =? ,ORD_KODE_POS =? ,DRIVER_ID_DRIVER =?, DELIVERY_ID_DELIVERY =? "
+            + "WHERE ID_ORDER = ?"
+            );
+            updateStatement.setFloat(1, Float.parseFloat(jtfField2.getText())); // ORD Price
+            updateStatement.setInt(2, Integer.parseInt(jtfField3.getText())); // Quantity
+            updateStatement.setString(3, jtfField4.getText()); // Date
+            updateStatement.setString(4, jtfField5.getText()); // Payment
+            updateStatement.setString(5, jtfField6.getText()); // Status
+            updateStatement.setString(6, jtfField7.getText()); // Jalan 
+            updateStatement.setString(7, jtfField8.getText());// keluarahan 
+            updateStatement.setString(8, jtfField9.getText()); //Kecamatan 
+            updateStatement.setString(9, jtfField10.getText()); // ORD_KODE_POS
+            updateStatement.setInt(10, Integer.parseInt(jtfField11.getText())); // DRIVER_ID_DRIVER 
+            updateStatement.setInt(11, Integer.parseInt(jtfField12.getText())); //DELIVERY_ID_DELIVERY
+            updateStatement.setInt(12, Integer.parseInt(jtfField1.getText())); // ID_ORDER
+            break;
+        case "delivery":
+            updateStatement = connection.prepareStatement(
+            "UPDATE DELIVERY SET DELIV_TIME = ?, DELIV_COST =?, DRIVER_ID_DRIVER =?"
+                    + "WHERE ID_DELIVERY = ?"
+            );
+            updateStatement.setInt(1, Integer.parseInt(jtfField2.getText())); // DELIV_TIME
+            updateStatement.setFloat(2, Float.parseFloat(jtfField3.getText())); // DELIV_COST
+            updateStatement.setInt(3, Integer.parseInt(jtfField4.getText())); // DRIVER_ID_DRIVER
+            updateStatement.setInt(4, Integer.parseInt(jtfField1.getText())); // ID_DELIVERY
+            break;
+        case "driver":
+            updateStatement = connection.prepareStatement(
+            "UPDATE DRIVER SET  DRIV_NAME = ? ,DRIV_PHONE =?, DRIV_EMAIL =? ,DRIV_RATING= ?, DRIV_PLAT =?, DRIV_SALARY =?"
+                    + "WHERE ID_DRIVER = ?" 
+    );
+            updateStatement.setString(1, jtfField2.getText()); // DRIV_NAME
+            updateStatement.setString(2, jtfField3.getText()); // Phone
+            updateStatement.setString(3, jtfField4.getText()); // email
+            updateStatement.setFloat(4, Float.parseFloat(jtfField5.getText())); // Rating
+            updateStatement.setString(5, (jtfField6.getText())); // plat
+            updateStatement.setFloat(6, Float.parseFloat(jtfField7.getText())); // salary
+            updateStatement.setInt(7, Integer.parseInt(jtfField1.getText())); 
+            break;
+        case "payment":
+          updateStatement = connection.prepareStatement(
+            "UPDATE DRIVER SET  PAYMENT_METHOD =?, PAYMENT_AMOUNT =?, PAYMENT_STATUS =?, RESTAURANT_ID_RESTAURANT =?, CUSTOMER_ID_CUSTOMER "
+                    + "DELIVERY_ID_DELIVERY =?, WHERE ID_PAYMENT= ?"
+            );
+            updateStatement.setString(1, jtfField2.getText()); // Method
+            updateStatement.setFloat(2, Float.parseFloat(jtfField3.getText())); // amount
+            updateStatement.setString(3, jtfField4.getText()); // status
+            updateStatement.setInt(4, Integer.parseInt(jtfField5.getText())); // Restaurant-id
+            updateStatement.setInt(5, Integer.parseInt(jtfField6.getText())); // customer-id
+            updateStatement.setInt(6, Integer.parseInt(jtfField7.getText())); // delivery-id
+            updateStatement.setInt(7, Integer.parseInt(jtfField1.getText())); //payment-id
+            break;
+        case "review": 
+            updateStatement = connection.prepareStatement(
+            "UPDATE REVIEW SET REV_RATING =? ,REV_COMMENT =?, CUSTOMER_ID_CUSTOMER =?, RESTAURANT_ID_RESTAURANT=?, WHERE ID_REVIEW = ?"
+            );
+            updateStatement.setFloat(1, Float.parseFloat(jtfField2.getText())); // rating
+            updateStatement.setString(2, jtfField3.getText()); // comment
+            updateStatement.setInt(3, Integer.parseInt(jtfField4.getText())); // Customer_id
+            updateStatement.setInt(4, Integer.parseInt(jtfField5.getText())); // Restaurant-id
+            updateStatement.setInt(5, Integer.parseInt(jtfField1.getText())); //review-id
+            break;
+        default:
+            throw new IllegalArgumentException("Unknown section: " + section);
+    }
+
+    updateStatement.executeUpdate();
+    JOptionPane.showMessageDialog(null, "Update successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+} catch (SQLException ex) {
+    Logger.getLogger(DashboardAdmin.class.getName()).log(Level.SEVERE, null, ex);
+    JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
+
+
+
+        
+        
+        
+        
+//        PreparedStatement updateStatement;
+//        String preparedString1="";
+//        String kontol="";
+//        for (int i = 0; i < fieldCount; i++) {
+//            String labelAccessor = "jlField" + Integer.toString(i+1);
+//            String labelText = jlMap.get(labelAccessor).getText();
+//            if (i == fieldCount-1){
+//                preparedString1 += labelText + " = ?";
+//                continue;
+//            }
+//            preparedString1 += labelText + " = ?, ";
+//        }
+//        kontol=preparedString1;
+//        String preparedString = "UPDATE " + preparedString1 +" SET "+ kontol+ " WHERE " + jlField1.getText() + " = 2";
+//        System.out.println(preparedString);
+//
+//        try {
+//            updateStatement = connection.prepareStatement(preparedString);
+//            switch (kontol) {
+//                case "CUSTOMER":
+//                    updateStatement.setInt(0, 2);  // ID_CUSTOMER
+//                    updateStatement.setString(1, jtfField1.getText());  // ID_CUSTOMER
+//                    updateStatement.setString(2, jtfField2.getText());  // FIRST_NAME
+//                    updateStatement.setString(3, jtfField3.getText());  // SURNAME
+//                    updateStatement.setString(4,(jtfField4.getText()));  // CUST_PHONE
+//                    updateStatement.setString(5, jtfField5.getText());  // CUST_EMAIL
+//                    updateStatement.setString(6, jtfField6.getText());  // CUST_JALAN
+//                    updateStatement.setString(7, jtfField7.getText());  // CUST_KELURAHAN
+//                    updateStatement.setString(8, jtfField8.getText());  // CUST_KODE_POS
+//                    updateStatement.setString(9, jtfField9.getText());  // CUST_PAYMENT
+//                    updateStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));  // balance
+//                break;
+//                case "RESTAURANT":
+//                updateStatement.setString(1, jtfField1.getText());
+//                updateStatement.setString(2, jtfField2.getText());
+//                updateStatement.setString(3, jtfField3.getText());
+//                updateStatement.setString(4, jtfField4.getText());
+//                updateStatement.setString(5, jtfField5.getText());
+//                updateStatement.setFloat(6, Float.parseFloat(jtfField6.getText()));
+//                updateStatement.setString(7, jtfField7.getText());
+//                updateStatement.setFloat(8, Float.parseFloat(jtfField8.getText()));
+//                updateStatement.setString(9, jtfField9.getText());
+//                updateStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
+//                updateStatement.setString(11, jtfField11.getText());
+//                updateStatement.setString(12, jtfField12.getText());
+//                updateStatement.setString(13, jtfField13.getText());
+//                updateStatement.setString(14, jtfField1.getText());
+//                break;
+//                case "MENU":
+//                updateStatement.setString(1, jtfField1.getText());
+//                updateStatement.setString(2, jtfField2.getText());
+//                updateStatement.setString(3, jtfField3.getText());
+//                updateStatement.setString(4, jtfField4.getText());
+//                updateStatement.setString(5, jtfField5.getText());
+//                updateStatement.setString(6, jtfField6.getText());
+//                updateStatement.setString(7, jtfField7.getText());
+//                updateStatement.setString(8, jtfField8.getText());
+//                updateStatement.setString(9, jtfField9.getText());
+//                updateStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
+//                updateStatement.setString(11, jtfField11.getText());
+//                updateStatement.setString(12, jtfField12.getText());
+//                updateStatement.setString(13, jtfField1.getText());
+//                break;
+//                case "ORDER":
+//                updateStatement.setString(1, jtfField1.getText());
+//                updateStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
+//                updateStatement.setString(3, jtfField3.getText());
+//                updateStatement.setString(4, jtfField4.getText());
+//                updateStatement.setString(5, jtfField1.getText());
+//                break;
+//                case "DELIVERY":
+//                updateStatement.setString(1, jtfField1.getText());
+//                updateStatement.setString(2, jtfField2.getText());
+//                updateStatement.setString(3, jtfField3.getText());
+//                updateStatement.setString(4, jtfField4.getText());
+//                updateStatement.setString(5, jtfField5.getText());
+//                updateStatement.setInt(6, Integer.parseInt(jtfField6.getText()));
+//                updateStatement.setString(7, jtfField1.getText());
+//                break;
+//                case "DRIVER":
+//                updateStatement.setString(1, jtfField1.getText());
+//                updateStatement.setString(2, jtfField2.getText());
+//                updateStatement.setString(3, jtfField3.getText());
+//                updateStatement.setString(4, jtfField4.getText());
+//                updateStatement.setString(5, jtfField1.getText());
+//                break;
+//                case "PAYMENT":
+//                updateStatement.setString(1, jtfField1.getText());
+//                updateStatement.setString(2, jtfField2.getText());
+//                updateStatement.setString(3, jtfField3.getText());
+//                updateStatement.setString(4, jtfField4.getText());
+//                updateStatement.setString(5, jtfField5.getText());
+//                updateStatement.setString(6, jtfField6.getText());
+//                updateStatement.setString(7, jtfField7.getText());
+//                break;
+//                 case "Review":
+//                updateStatement.setString(1, jtfField1.getText());
+//                updateStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
+//                updateStatement.setString(3, jtfField1.getText());
+//                updateStatement.setString(4, jtfField1.getText());
+//                break;
+//            }
+//            updateStatement.executeUpdate();
+//            System.out.println("Successfully save edit.");
+//            JOptionPane.showMessageDialog(this, "Successfully saved edit.", "Success", JOptionPane.INFORMATION_MESSAGE);
+//
+//            for (int i = 1; i < fieldCount; i++){
+//                String textFieldAccessor = "jtfField" + Integer.toString(i+1);
+//                jtfMap.get(textFieldAccessor).setEditable(false);
+//            }
+//            jBtnSave.setEnabled(false);
+//        } catch (SQLException e){
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Error occurred while saving edit.", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
     }//GEN-LAST:event_jBtnSaveActionPerformed
 
     private void jBtnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddActionPerformed
@@ -1129,77 +1290,55 @@ try {
     String deleteDeliveryQuery = "DELETE FROM DELIVERY WHERE ID_DELIVERY = ?";
     
     // Query to delete data from MENU_ORDER table
-    String deleteMenuOrderQuery = "DELETE FROM MENU_ORDER WHERE MENU_ID_MENU IN (SELECT MENU_ID_MENU FROM MENU WHERE MENU_ID_MENU = ?)";
+    String deleteMenuQuery = "DELETE FROM MENU_ORDER WHERE MENU_ID_MENU IN (SELECT MENU_ID_MENU FROM MENU WHERE MENU_ID_MENU = ?)";
     // Query to delete data from MENU_REVIEW table
     String deleteMenuReviewQuery = "DELETE FROM MENU_REVIEW WHERE REVIEW_ID_REVIEW IN (SELECT REVIEW_ID_REVIEW FROM REVIEW WHERE CUSTOMER_ID_CUSTOMER = ?)";
+    String deleteMenuOrderQuery = "DELETE FROM MENU_ORDER WHERE ORDER_ID_ORDER IN (SELECT ORDER_ID_ORDER FROM MENU WHERE ORDER_ID_ORDER = ?)";
+    PreparedStatement deleteMenuOrderStatement = connection.prepareStatement(deleteMenuOrderQuery);
+    deleteMenuOrderStatement.setString(1, jtfField1.getText());
+    deleteMenuOrderStatement.executeUpdate();
+    
     
     // Query to delete data from REVIEW table
     String deleteReviewQuery = "DELETE FROM REVIEW WHERE CUSTOMER_ID_CUSTOMER = ?";
     // Query to delete data from PAYMENT table
     String deletePaymentQuery = "DELETE FROM PAYMENT WHERE CUSTOMER_ID_CUSTOMER = ?";
     // Query to delete data from CUSTOMER_ORDER table
-    String deleteOrderQuery = "DELETE FROM CUSTOMER_ORDER WHERE CUSTOMER_ID_CUSTOMER = ?";
+    String deleteCustomerOrderQuery = "DELETE FROM CUSTOMER_ORDER WHERE CUSTOMER_ID_CUSTOMER = ?";
     // Query to delete data from CUSTOMER_RESTAURANT table
     String deleteRestaurantQuery = "DELETE FROM CUSTOMER_RESTAURANT WHERE CUSTOMER_ID_CUSTOMER = ?";
     // Query to delete data from the PARENT CUSTOMER table
     String deleteParentQuery = "DELETE FROM " + section + " WHERE " + jlField1.getText() + " = ?";
     
+    // Delete from CUSTOMER_ORDER table first
+    PreparedStatement deleteCustomerOrderStatement = connection.prepareStatement(deleteCustomerOrderQuery);
+    deleteCustomerOrderStatement.setString(1, jtfField1.getText());
+    deleteCustomerOrderStatement.executeUpdate();
+
     // Delete data from the ASSIGNEDTODELIVER table (or the related table referencing DRIVER_ID_DRIVER)
     String deleteAssignedToDeliverQuery = "DELETE FROM RESTAURANT WHERE DRIVER_ID_DRIVER = ?";
-    
    
-    /// tidak bisa untuk delete Driver
-    // 1. Delete from ORDER table where the driver is referenced
-    String deleteOrder2Query = "DELETE FROM \"ORDER\" WHERE DRIVER_ID_DRIVER = ?";
-    PreparedStatement deleteOrder2Statement = connection.prepareStatement(deleteOrder2Query);
-    deleteOrder2Statement.setString(1, jtfField1.getText());
-    deleteOrder2Statement.executeUpdate();
+    // Delete data from the MENU_ORDER table
+    PreparedStatement deleteMenuStatement = connection.prepareStatement(deleteMenuQuery);
+    deleteMenuStatement.setString(1, jtfField1.getText());
+    deleteMenuStatement.executeUpdate();
 
-    // 2. Delete from CUSTOMER_RESTAURANT table if needed (adjust based on actual relationship)
-     String deleteCustomerRestaurantQuery = "DELETE FROM RESTAURANT WHERE DRIVER_ID_DRIVER = ?";
-    PreparedStatement deleteCustomerRestaurantStatement = connection.prepareStatement(deleteCustomerRestaurantQuery);
-    deleteCustomerRestaurantStatement.setString(1, jtfField1.getText());
-    deleteCustomerRestaurantStatement.executeUpdate();
-
-    // 3. Delete from DELIVERY table where the driver is referenced
-    String deleteDelivery2Query = "DELETE FROM DELIVERY WHERE DRIVER_ID_DRIVER = ?";
-    PreparedStatement deleteDelivery2Statement = connection.prepareStatement(deleteDelivery2Query);
-    deleteDelivery2Statement.setString(1, jtfField1.getText());
-    deleteDelivery2Statement.executeUpdate();
-
-    // 4. Finally, delete from the DRIVER table
-    String deleteDriverQuery = "DELETE FROM DRIVER WHERE ID_DRIVER = ?";
-    PreparedStatement deleteDriverStatement = connection.prepareStatement(deleteDriverQuery);
-    deleteDriverStatement.setString(1, jtfField1.getText());
-    deleteDriverStatement.executeUpdate();
-    ///
-   
-    // 1. Delete data from the MENU_ORDER table
-    PreparedStatement deleteMenuOrderStatement = connection.prepareStatement(deleteMenuOrderQuery);
-    deleteMenuOrderStatement.setString(1, jtfField1.getText());
-    deleteMenuOrderStatement.executeUpdate();
-
-    // 2. Delete data from the MENU_REVIEW table
+    // Delete data from the MENU_REVIEW table
     PreparedStatement deleteMenuReviewStatement = connection.prepareStatement(deleteMenuReviewQuery);
     deleteMenuReviewStatement.setString(1, jtfField1.getText());
     deleteMenuReviewStatement.executeUpdate();
 
-    // 3. Delete data from the REVIEW table
+    // Delete data from the REVIEW table
     PreparedStatement deleteReviewStatement = connection.prepareStatement(deleteReviewQuery);
     deleteReviewStatement.setString(1, jtfField1.getText());
     deleteReviewStatement.executeUpdate();
 
-    // 4. Delete data from the PAYMENT table
+    // Delete data from the PAYMENT table
     PreparedStatement deletePaymentStatement = connection.prepareStatement(deletePaymentQuery);
     deletePaymentStatement.setString(1, jtfField1.getText());
     deletePaymentStatement.executeUpdate();
 
-    // 5. Delete data from the CUSTOMER_ORDER table
-    PreparedStatement deleteOrderStatement = connection.prepareStatement(deleteOrderQuery);
-    deleteOrderStatement.setString(1, jtfField1.getText());
-    deleteOrderStatement.executeUpdate();
-
-    // 6. Delete data from the CUSTOMER_RESTAURANT table
+    // Delete data from the CUSTOMER_RESTAURANT table
     PreparedStatement deleteRestaurantStatement = connection.prepareStatement(deleteRestaurantQuery);
     deleteRestaurantStatement.setString(1, jtfField1.getText());
     deleteRestaurantStatement.executeUpdate();
@@ -1214,7 +1353,7 @@ try {
     deleteDeliveryStatement.setString(1, jtfField1.getText());
     deleteDeliveryStatement.executeUpdate();
     
-    // 
+    // Delete data from the ASSIGNEDTODELIVER table (or the related table referencing DRIVER_ID_DRIVER)
     PreparedStatement deleteAssignedToDeliverStatement = connection.prepareStatement(deleteAssignedToDeliverQuery);
     deleteAssignedToDeliverStatement.setString(1, jtfField1.getText());
     deleteAssignedToDeliverStatement.executeUpdate();
@@ -1228,7 +1367,7 @@ try {
     );
 
     if (confirmation == JOptionPane.YES_OPTION) {
-        // 7. Delete data from the CUSTOMER table
+        // Delete data from the CUSTOMER table
         PreparedStatement deleteParentStatement = connection.prepareStatement(deleteParentQuery);
         deleteParentStatement.setString(1, jtfField1.getText());
         deleteParentStatement.executeUpdate();
@@ -1246,8 +1385,6 @@ try {
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Error occurred while deleting.", "Error", JOptionPane.ERROR_MESSAGE);
 }
-
-
     }//GEN-LAST:event_jBtnDeleteActionPerformed
 
     //Empty Check Register Button
@@ -1264,132 +1401,126 @@ try {
     
     private void jBtnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRegisterActionPerformed
         // TODO add your handling code here:
-        try {
-            if (checkEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                    "Please fill every active field.",
-                    "Empty Field!",
-                    JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            String preparedString = "INSERT INTO " + section + " VALUES (";
-            for (int i = 0; i < fieldCount; i++) {
-
-                if (i == fieldCount-1){
-                    preparedString += "?)";
-                }
-                else {
-                    preparedString += "?, ";
-                }
-            }
-
-            PreparedStatement insertStatement = connection.prepareStatement(preparedString);
-            switch (section) {
-                case "CUSTOMER":
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setString(2, jtfField2.getText());
-                insertStatement.setString(3, jtfField3.getText());
-                insertStatement.setInt(4, Integer.parseInt(jtfField4.getText()));
-                insertStatement.setString(5, jtfField5.getText());
-                insertStatement.setString(6, jtfField6.getText());
-                insertStatement.setString(7, jtfField7.getText());
-                break;
-                case "RESTAURANT":
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setString(2, jtfField2.getText());
-                insertStatement.setString(3, jtfField3.getText());
-                insertStatement.setString(4, jtfField4.getText());
-                insertStatement.setString(5, jtfField5.getText());
-                insertStatement.setFloat(6, Float.parseFloat(jtfField6.getText()));
-                insertStatement.setString(7, jtfField7.getText());
-                insertStatement.setFloat(8, Float.parseFloat(jtfField8.getText()));
-                insertStatement.setString(9, jtfField9.getText());
-                insertStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
-                insertStatement.setString(11, jtfField11.getText());
-                insertStatement.setString(12, jtfField12.getText());
-                insertStatement.setString(13, jtfField13.getText());
-                break;
-                case "MENU":
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setString(2, jtfField2.getText());
-                insertStatement.setString(3, jtfField3.getText());
-                insertStatement.setString(4, jtfField4.getText());
-                insertStatement.setString(5, jtfField5.getText());
-                insertStatement.setString(6, jtfField6.getText());
-                insertStatement.setString(7, jtfField7.getText());
-                insertStatement.setString(8, jtfField8.getText());
-                insertStatement.setString(9, jtfField9.getText());
-                insertStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
-                insertStatement.setString(11, jtfField11.getText());
-                insertStatement.setString(12, jtfField12.getText());
-                break;
-                case "ORDER":
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
-                insertStatement.setString(3, jtfField3.getText());
-                insertStatement.setString(4, jtfField4.getText());
-                break;
-                case "DELIVERY":
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setString(2, jtfField2.getText());
-                insertStatement.setString(3, jtfField3.getText());
-                insertStatement.setString(4, jtfField4.getText());
-                insertStatement.setString(5, jtfField5.getText());
-                insertStatement.setInt(6, Integer.parseInt(jtfField6.getText()));
-                break;
-                case "DRIVER":
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setString(2, jtfField2.getText());
-                insertStatement.setString(3, jtfField3.getText());
-                insertStatement.setString(4, jtfField4.getText());
-                insertStatement.setString(5, jtfField1.getText());
-                break;
-                case "PAYMENT":
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setString(2, jtfField2.getText());
-                insertStatement.setString(3, jtfField3.getText());
-                insertStatement.setString(4, jtfField4.getText());
-                insertStatement.setString(5, jtfField5.getText());
-                insertStatement.setString(6, jtfField6.getText());
-                insertStatement.setString(7, jtfField7.getText());
-                break;
-                case "payment":
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
-                insertStatement.setFloat(3, Float.parseFloat(jtfField3.getText()));
-                insertStatement.setFloat(4, Float.parseFloat(jtfField4.getText()));
-                insertStatement.setString(5, jtfField5.getText());
-                break;
-                case "Review": 
-                insertStatement.setString(1, jtfField1.getText());
-                insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
-                insertStatement.setString(3, jtfField1.getText());
-                insertStatement.setString(4, jtfField1.getText());
-                break;
-              
-            }
-
-            int confirmation = JOptionPane.showConfirmDialog(
-                this,
-                "Are you sure you want to register new entry?",
-                "Register Confirmation",
-                JOptionPane.YES_NO_OPTION
-            );
-
-            if(confirmation == JOptionPane.YES_OPTION){
-                insertStatement.execute();
-                System.out.println("Successfully register new entry to "+ section + " ID no: " + jtfField1.getText());
-                JOptionPane.showMessageDialog(this, "Successfully registered.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                resetField();
-            } else {
-                System.out.println("Register aborted.");
-                JOptionPane.showMessageDialog(this, "Register aborted.", "Cancel Register", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        } catch (SQLException e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error occurred while registering.", "Error", JOptionPane.ERROR_MESSAGE);
+        // TODO add your handling code here:
+try {
+    if (checkEmpty()) {
+        JOptionPane.showMessageDialog(this,
+            "Please fill every active field.",
+            "Empty Field!",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    String preparedString = "INSERT INTO " + section + " VALUES (";
+    for (int i = 0; i < fieldCount; i++) {
+        if (i == fieldCount - 1) {
+            preparedString += "?)";
+        } else {
+            preparedString += "?, ";
         }
+    }
+
+    PreparedStatement insertStatement = connection.prepareStatement(preparedString);
+    
+    // Menyesuaikan case dengan parameter yang benar
+    switch (section) {
+        case "CUSTOMER":
+            insertStatement.setString(1, jtfField1.getText());
+            insertStatement.setString(2, jtfField2.getText());
+            insertStatement.setString(3, jtfField3.getText());
+            insertStatement.setInt(4, Integer.parseInt(jtfField4.getText()));
+            insertStatement.setString(5, jtfField5.getText());
+            insertStatement.setString(6, jtfField6.getText());
+            insertStatement.setString(7, jtfField7.getText());
+            break;
+        case "RESTAURANT":
+            insertStatement.setString(1, jtfField1.getText());
+            insertStatement.setString(2, jtfField2.getText());
+            insertStatement.setString(3, jtfField3.getText());
+            insertStatement.setString(4, jtfField4.getText());
+            insertStatement.setString(5, jtfField5.getText());
+            insertStatement.setFloat(6, Float.parseFloat(jtfField6.getText()));
+            insertStatement.setString(7, jtfField7.getText());
+            insertStatement.setFloat(8, Float.parseFloat(jtfField8.getText()));
+            insertStatement.setString(9, jtfField9.getText());
+            insertStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
+            insertStatement.setString(11, jtfField11.getText());
+            insertStatement.setString(12, jtfField12.getText());
+            insertStatement.setString(13, jtfField13.getText());
+            break;
+        case "MENU":
+            insertStatement.setString(1, jtfField1.getText());
+            insertStatement.setString(2, jtfField2.getText());
+            insertStatement.setString(3, jtfField3.getText());
+            insertStatement.setString(4, jtfField4.getText());
+            insertStatement.setString(5, jtfField5.getText());
+            insertStatement.setString(6, jtfField6.getText());
+            insertStatement.setString(7, jtfField7.getText());
+            insertStatement.setString(8, jtfField8.getText());
+            insertStatement.setString(9, jtfField9.getText());
+            insertStatement.setFloat(10, Float.parseFloat(jtfField10.getText()));
+            insertStatement.setString(11, jtfField11.getText());
+            insertStatement.setString(12, jtfField12.getText());
+            break;
+        case "ORDER":
+            insertStatement.setString(1, jtfField1.getText());
+            insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
+            insertStatement.setString(3, jtfField3.getText());
+            insertStatement.setString(4, jtfField4.getText());
+            break;
+        case "DELIVERY":
+            insertStatement.setString(1, jtfField1.getText());
+            insertStatement.setString(2, jtfField2.getText());
+            insertStatement.setString(3, jtfField3.getText());
+            insertStatement.setString(4, jtfField4.getText());
+            insertStatement.setString(5, jtfField5.getText());
+            insertStatement.setInt(6, Integer.parseInt(jtfField6.getText()));
+            break;
+        case "DRIVER":
+            insertStatement.setString(1, jtfField1.getText());
+            insertStatement.setString(2, jtfField2.getText());
+            insertStatement.setString(3, jtfField3.getText());
+            insertStatement.setString(4, jtfField4.getText());
+            insertStatement.setString(5, jtfField1.getText());  // mungkin ada kesalahan di sini
+            break;
+        case "PAYMENT":
+            insertStatement.setString(1, jtfField1.getText());
+            insertStatement.setString(2, jtfField2.getText());
+            insertStatement.setString(3, jtfField3.getText());
+            insertStatement.setString(4, jtfField4.getText());
+            insertStatement.setString(5, jtfField5.getText());
+            insertStatement.setString(6, jtfField6.getText());
+            insertStatement.setString(7, jtfField7.getText());
+            break;
+        case "Review":
+            insertStatement.setString(1, jtfField1.getText());
+            insertStatement.setFloat(2, Float.parseFloat(jtfField2.getText()));
+            insertStatement.setString(3, jtfField1.getText());
+            insertStatement.setString(4, jtfField1.getText());
+            break;
+    }
+
+    int confirmation = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to register new entry?",
+        "Register Confirmation",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirmation == JOptionPane.YES_OPTION) {
+        insertStatement.execute();
+        System.out.println("Successfully registered new entry to " + section + " ID no: " + jtfField1.getText());
+        JOptionPane.showMessageDialog(this, "Successfully registered.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        resetField();
+    } else {
+        System.out.println("Register aborted.");
+        JOptionPane.showMessageDialog(this, "Register aborted.", "Cancel Register", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+} catch (SQLException e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error occurred while registering.", "Error", JOptionPane.ERROR_MESSAGE);
+}
+
     }//GEN-LAST:event_jBtnRegisterActionPerformed
 
     private void jComboBoxTopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTopActionPerformed
@@ -1498,6 +1629,10 @@ try {
         }
 
     }//GEN-LAST:event_jButtonFilterTopActionPerformed
+
+    private void jtfField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfField9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfField9ActionPerformed
 
     /**
      * @param args the command line arguments
