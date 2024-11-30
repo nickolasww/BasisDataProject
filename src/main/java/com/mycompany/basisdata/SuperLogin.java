@@ -5,6 +5,8 @@
 package com.mycompany.basisdata;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,13 +14,23 @@ import javax.swing.JOptionPane;
  * @author sawun
  */
 public class SuperLogin extends javax.swing.JFrame {
+      private java.sql.Connection connection;
 
+public void establishConnection() {
+    try {
+        
+        connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=DUMMYDATATEST;encrypt=true;trustServerCertificate=true");
+    } catch (SQLException e) {
+        System.out.println("Failed");
+        Logger.getLogger(ProfileUser.class.getName()).log(Level.SEVERE, "Database connection error", e);
+        JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
+    }
+}
     /**
      * Creates new form SuperLogin
      */
     public SuperLogin() {
         initComponents();
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -172,39 +184,10 @@ public class SuperLogin extends javax.swing.JFrame {
         String CUST_EMAIL = EmailField.getText();
         String CUST_PASSWORD = PasswordField.getText() ; 
         
-        
-        String connectionUrl =
-            "jdbc:sqlserver://LAPTOP-J2IM2P89:1433;"
-            + "database= TUGAS AKHIR FINAL FIX;"
-            + "user=sa;"
-            + "password= wewe31;"
-            + "encrypt=true;"
-            + "trustServerCertificate=true;"
-            + "loginTimeout=30;";
-        
-        try(Connection conn = DriverManager.getConnection(connectionUrl)){ 
-        
-            String sql = "SELECT * FROM CUSTOMER WHERE CUST_EMAIL = ?";
-            PreparedStatement statement = conn.prepareStatement(sql);
-            
-            
-            statement.setString(1, CUST_EMAIL);
-            ResultSet result = statement.executeQuery();
-            
-            
-            if (result.next()) {
-                Menu CM = new Menu(CUST_EMAIL);
-                CM.setVisible(true);
-                this.dispose();
-                System.out.println("Successfully login as customer.");
-                JOptionPane.showMessageDialog(this, "Successfully login as customer.", "Login Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Sorry, email or password is wrong!", "Login Error", JOptionPane.ERROR_MESSAGE);
-            }
-             conn.close();
-        } catch (SQLException e) {
-             e.printStackTrace();
-        }
+ 
+        this.setVisible(false);
+        Menu menu=new Menu();
+        menu.setVisible(true);
         
                
     }//GEN-LAST:event_LoginCustomerActionPerformed
@@ -274,25 +257,9 @@ public class SuperLogin extends javax.swing.JFrame {
                 new SuperLogin().setVisible(true);
             }
         });
-        
- String connectionUrl =
-            "jdbc:sqlserver://LAPTOP-J2IM2P89:1433;"
-            + "database= TUGAS AKHIR FINAL FIX;"
-            + "user=sa;"
-            + "password= wewe31;"
-            + "encrypt=true;"
-            + "trustServerCertificate=true;"
-            + "loginTimeout=30;";
+ 
 
-        ResultSet setResult = null;
-
-        try (Connection connection = DriverManager.getConnection(connectionUrl);) {
-            System.out.println("Yeay, Connected successfully!");
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Sorry, Connection failed :)");
-        }
+     
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
