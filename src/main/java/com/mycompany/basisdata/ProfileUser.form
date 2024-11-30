@@ -100,7 +100,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="KodePosField" min="-2" pref="303" max="-2" attributes="0"/>
-                                      <Component id="KeluarahanField" min="-2" pref="303" max="-2" attributes="0"/>
+                                      <Component id="KelurahanField" min="-2" pref="303" max="-2" attributes="0"/>
                                       <Component id="AlamatField" min="-2" pref="303" max="-2" attributes="0"/>
                                       <Component id="PhoneNumberField" alignment="1" min="-2" pref="303" max="-2" attributes="0"/>
                                   </Group>
@@ -145,7 +145,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel3" max="32767" attributes="0"/>
-                      <Component id="KeluarahanField" pref="28" max="32767" attributes="0"/>
+                      <Component id="KelurahanField" pref="28" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -206,9 +206,9 @@
             <Property name="text" type="java.lang.String" value="KodePos"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="KeluarahanField">
+        <Component class="javax.swing.JTextField" name="KelurahanField">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="KeluarahanFieldActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="KelurahanFieldActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">

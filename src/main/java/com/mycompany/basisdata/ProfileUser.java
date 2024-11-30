@@ -21,28 +21,25 @@ import javax.swing.JTextField;
  * @author pinkg
  */
 public class ProfileUser extends javax.swing.JFrame {
-    
-    private java.sql.Connection conn;
-
-    ProfileUser(String CUST_EMAIL) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    public void establishConnection() {
+     private java.sql.Connection connection;
+     public String userEmail;
+     
+     
+     public void establishConnection() {
     try {
-        conn = java.sql.DriverManager.getConnection(""
+        connection = java.sql.DriverManager.getConnection(""
                 + "jdbc:sqlserver://LAPTOP-J2IM2P89:1433;"
                 + "databaseName= TUGAS AKHIR FINAL FIX;"
                 + "encrypt=true;"
                 + "trustServerCertificate=true",
                 "sa",
-             "wewe31");
+           "wewe31");
     } catch (SQLException e) {
         System.out.println("Failed");
         Logger.getLogger(ProfileUser.class.getName()).log(Level.SEVERE, "Database connection error", e);
         JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
     }
 }
-    
 
     /**
      * Creates new form ProfileUser
@@ -68,7 +65,7 @@ public class ProfileUser extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         KodePosField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        KeluarahanField = new javax.swing.JTextField();
+        KelurahanField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         AlamatField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -137,9 +134,9 @@ public class ProfileUser extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("KodePos");
 
-        KeluarahanField.addActionListener(new java.awt.event.ActionListener() {
+        KelurahanField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                KeluarahanFieldActionPerformed(evt);
+                KelurahanFieldActionPerformed(evt);
             }
         });
 
@@ -204,7 +201,7 @@ public class ProfileUser extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(KodePosField, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(KeluarahanField, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(KelurahanField, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(AlamatField, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(PhoneNumberField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -237,7 +234,7 @@ public class ProfileUser extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(KeluarahanField, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                    .addComponent(KelurahanField, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -342,12 +339,11 @@ public class ProfileUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-      
-        
-                String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
+
+        String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
         int convert=Integer.parseInt(input);
         try{
-           PreparedStatement updateStatement = conn.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
+           PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
            updateStatement.setFloat(1,convert);
            updateStatement.setInt(2,1);
             if(convert>0){
@@ -374,7 +370,7 @@ public class ProfileUser extends javax.swing.JFrame {
                 String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
         int convert=Integer.parseInt(input);
         try{
-           PreparedStatement updateStatement = conn.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
+           PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
            updateStatement.setFloat(1,convert);
            updateStatement.setInt(2,1);
             if(convert>0){
@@ -406,11 +402,11 @@ public class ProfileUser extends javax.swing.JFrame {
 
     }//GEN-LAST:event_AlamatFieldActionPerformed
 
-    private void KeluarahanFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeluarahanFieldActionPerformed
+    private void KelurahanFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KelurahanFieldActionPerformed
         // TODO add your handling code here:
-     String kelurahan=KeluarahanField.getText();
+     String kelurahan=KelurahanField.getText();
 
-    }//GEN-LAST:event_KeluarahanFieldActionPerformed
+    }//GEN-LAST:event_KelurahanFieldActionPerformed
 
     private void KodePosFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KodePosFieldActionPerformed
         // TODO add your handling code here:
@@ -420,16 +416,16 @@ public class ProfileUser extends javax.swing.JFrame {
 
     private void ButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateActionPerformed
         // TODO add your handling code here:
-  try{
-            PreparedStatement updateStatement = conn.prepareStatement("UPDATE CUSTOMER SET first_name = ?, surname = ?, cust_phone = ?, cust_email = ? WHERE ID_CUSTOMER = ?");
+establishConnection();
+        try{
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET first_name = ?, surname = ?, cust_phone = ?, cust_email = ? WHERE ID_CUSTOMER = ?");
             updateStatement.setString(1,PhoneNumberField.getText());
             updateStatement.setString(2, AlamatField.getText());
-            updateStatement.setString(3, KeluarahanField.getText());
+            updateStatement.setString(3, KelurahanField.getText());
             updateStatement.setString(4, KodePosField.getText());
             updateStatement.setInt(5,1); 
             updateStatement.executeUpdate();
            JOptionPane.showMessageDialog(this,"Succesfully Updated");
-
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -482,7 +478,7 @@ public class ProfileUser extends javax.swing.JFrame {
     private javax.swing.JTextField AlamatField;
     private javax.swing.JButton ButtonTopUp;
     private javax.swing.JButton ButtonUpdate;
-    private javax.swing.JTextField KeluarahanField;
+    private javax.swing.JTextField KelurahanField;
     private javax.swing.JTextField KodePosField;
     private javax.swing.JTextField PhoneNumberField;
     private javax.swing.JButton jButton1;
