@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
  */
 public class ProfileUser extends javax.swing.JFrame {
      private java.sql.Connection connection;
+     public String userEmail;
+        
   public void establishConnection() {
     try {
         connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=TUGASAKHIRFINAL;encrypt=true;trustServerCertificate=true","sa","alfredorm123");
@@ -26,12 +28,18 @@ public class ProfileUser extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
     }
 }
-    /**
-     * Creates new form ProfileUser
-     */
-    public ProfileUser() {
+  public ProfileUser(String CUST_EMAIL) {
         initComponents();
+        SuperLogin outsider=new SuperLogin();
+        
+        this.userEmail =outsider.getUserEmail(); // Store the customer email in the instance variable
+        establishConnection();
+         System.out.println("User email: " + this.userEmail);  
+        
     }
+
+   
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -417,9 +425,11 @@ public class ProfileUser extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        SuperLogin superLogin = new SuperLogin();
+        String CUST_EMAIL = superLogin.getUserEmail();  
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProfileUser().setVisible(true);
+                new ProfileUser(CUST_EMAIL).setVisible(true);
             }
         });
     }
