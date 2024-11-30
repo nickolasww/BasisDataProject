@@ -18,24 +18,22 @@ import javax.swing.JOptionPane;
 public class ProfileUser extends javax.swing.JFrame {
      private java.sql.Connection connection;
      public String userEmail;
+
+ 
         
   public void establishConnection() {
     try {
-        connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=TUGASAKHIRFINAL;encrypt=true;trustServerCertificate=true","sa","alfredorm123");
+        connection = java.sql.DriverManager.getConnection("jdbc:sqlserver://localhost\\PC-001:1433;databaseName=DUMMYDATATEST;encrypt=true;trustServerCertificate=true","sa","alfredorm123");
     } catch (SQLException e) {
         System.out.println("Failed");
         Logger.getLogger(ProfileUser.class.getName()).log(Level.SEVERE, "Database connection error", e);
         JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
     }
 }
-  public ProfileUser(String CUST_EMAIL) {
+  public ProfileUser() {
         initComponents();
-        SuperLogin outsider=new SuperLogin();
         
-        this.userEmail =outsider.getUserEmail(); // Store the customer email in the instance variable
-        establishConnection();
-         System.out.println("User email: " + this.userEmail);  
-        
+
     }
 
    
@@ -237,6 +235,11 @@ public class ProfileUser extends javax.swing.JFrame {
         jLabel10.setText("PROFILE");
 
         jButton1.setText("Back To Menu");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -397,6 +400,13 @@ public class ProfileUser extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTextField5FocusGained
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Menu nextframe=new Menu();
+        nextframe.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -429,7 +439,7 @@ public class ProfileUser extends javax.swing.JFrame {
         String CUST_EMAIL = superLogin.getUserEmail();  
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProfileUser(CUST_EMAIL).setVisible(true);
+                new ProfileUser().setVisible(true);
             }
         });
     }
