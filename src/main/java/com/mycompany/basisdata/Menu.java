@@ -223,9 +223,11 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        SuperLogin superLogin = new SuperLogin();
+        String email = superLogin.getEmail();    
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu().setVisible(true);
+                new Menu(email).setVisible(true);
             }
         });
     }
