@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,25 +22,26 @@ import javax.swing.JTextField;
  */
 public class ProfileUser extends javax.swing.JFrame {
     
-      private final String connectionUrl =
-            "jdbc:sqlserver://LAPTOP-J2IM2P89:1433;"
-            + "database= TUGAS AKHIR FINAL FIX;"
-            + "user=sa;"
-            + "password= wewe31;"
-            + "encrypt=true;"
-            + "trustServerCertificate=true;"
-            + "loginTimeout=30;";
-      
-      
-    private final ResultSet resultSet = null;
-    private Connection connection;
-    private Statement statement;
-    private PreparedStatement preparedStatement;
-    private Map<String, JTextField> jtfMap;
-    private Map<String, JLabel> jlMap;
-    private String section;
-    private int fieldCount;
-    private String email_cust;
+    private java.sql.Connection conn;
+
+    ProfileUser(String CUST_EMAIL) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    public void establishConnection() {
+    try {
+        conn = java.sql.DriverManager.getConnection(""
+                + "jdbc:sqlserver://LAPTOP-J2IM2P89:1433;"
+                + "databaseName= TUGAS AKHIR FINAL FIX;"
+                + "encrypt=true;"
+                + "trustServerCertificate=true",
+                "sa",
+             "wewe31");
+    } catch (SQLException e) {
+        System.out.println("Failed");
+        Logger.getLogger(ProfileUser.class.getName()).log(Level.SEVERE, "Database connection error", e);
+        JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
+    }
+}
 
     /**
      * Creates new form ProfileUser
@@ -60,7 +63,7 @@ public class ProfileUser extends javax.swing.JFrame {
         jDialog2 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        ButtonTopUp = new javax.swing.JButton();
         jTextField5 = new javax.swing.JTextField();
         KodePosField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -70,7 +73,7 @@ public class ProfileUser extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         PhoneNumberField = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        ButtonUpdate = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -109,22 +112,20 @@ public class ProfileUser extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("E-Money Logo");
 
-        jButton2.setText("Top Up");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        ButtonTopUp.setText("Top Up");
+        ButtonTopUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ButtonTopUpActionPerformed(evt);
             }
         });
 
         jTextField5.setEditable(false);
-        jTextField5.setText("value");
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
             }
         });
 
-        KodePosField.setText("jTextField1");
         KodePosField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 KodePosFieldActionPerformed(evt);
@@ -135,7 +136,6 @@ public class ProfileUser extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("KodePos");
 
-        KeluarahanField.setText("jTextField1");
         KeluarahanField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 KeluarahanFieldActionPerformed(evt);
@@ -146,7 +146,6 @@ public class ProfileUser extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Kelurahan");
 
-        AlamatField.setText("jTextField1");
         AlamatField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AlamatFieldActionPerformed(evt);
@@ -161,17 +160,16 @@ public class ProfileUser extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel1.setText("Phone number");
 
-        PhoneNumberField.setText("jTextField1");
         PhoneNumberField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PhoneNumberFieldActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Update");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        ButtonUpdate.setText("Update");
+        ButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                ButtonUpdateActionPerformed(evt);
             }
         });
 
@@ -212,8 +210,8 @@ public class ProfileUser extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3)
-                            .addComponent(jButton2))))
+                            .addComponent(ButtonUpdate)
+                            .addComponent(ButtonTopUp))))
                 .addGap(202, 202, 202))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(230, 230, 230)
@@ -244,13 +242,13 @@ public class ProfileUser extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(KodePosField, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(ButtonUpdate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(ButtonTopUp)
                 .addGap(64, 64, 64))
         );
 
@@ -348,7 +346,7 @@ public class ProfileUser extends javax.swing.JFrame {
                 String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
         int convert=Integer.parseInt(input);
         try{
-           PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
+           PreparedStatement updateStatement = conn.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
            updateStatement.setFloat(1,convert);
            updateStatement.setInt(2,1);
             if(convert>0){
@@ -370,12 +368,12 @@ public class ProfileUser extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jTextField5ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void ButtonTopUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTopUpActionPerformed
         // TODO add your handling code here:
                 String input=JOptionPane.showInputDialog("Masukkan Saldo tambahan:");
         int convert=Integer.parseInt(input);
         try{
-           PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
+           PreparedStatement updateStatement = conn.prepareStatement("UPDATE CUSTOMER SET balance=balance + ? WHERE ID_CUSTOMER= ?");
            updateStatement.setFloat(1,convert);
            updateStatement.setInt(2,1);
             if(convert>0){
@@ -393,7 +391,7 @@ public class ProfileUser extends javax.swing.JFrame {
                 }
 
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_ButtonTopUpActionPerformed
 
     private void PhoneNumberFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhoneNumberFieldActionPerformed
         // TODO add your handling code here:
@@ -419,10 +417,10 @@ public class ProfileUser extends javax.swing.JFrame {
 
     }//GEN-LAST:event_KodePosFieldActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void ButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUpdateActionPerformed
         // TODO add your handling code here:
   try{
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE CUSTOMER SET first_name = ?, surname = ?, cust_phone = ?, cust_email = ? WHERE ID_CUSTOMER = ?");
+            PreparedStatement updateStatement = conn.prepareStatement("UPDATE CUSTOMER SET first_name = ?, surname = ?, cust_phone = ?, cust_email = ? WHERE ID_CUSTOMER = ?");
             updateStatement.setString(1,PhoneNumberField.getText());
             updateStatement.setString(2, AlamatField.getText());
             updateStatement.setString(3, KeluarahanField.getText());
@@ -436,12 +434,10 @@ public class ProfileUser extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_ButtonUpdateActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Menu CM = new Menu(email_cust);
-        CM.setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -481,12 +477,12 @@ public class ProfileUser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField AlamatField;
+    private javax.swing.JButton ButtonTopUp;
+    private javax.swing.JButton ButtonUpdate;
     private javax.swing.JTextField KeluarahanField;
     private javax.swing.JTextField KodePosField;
     private javax.swing.JTextField PhoneNumberField;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;

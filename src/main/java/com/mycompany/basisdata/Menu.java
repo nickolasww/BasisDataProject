@@ -11,20 +11,15 @@ import javax.swing.JOptionPane;
  * @author sawun
  */
 public class Menu extends javax.swing.JFrame {
-    private final String CUST_EMAIL;
+    
     /**
      * Creates new form Menu
      */
+    private String CUST_EMAIL;
     public Menu(String CUST_EMAIL) {
         initComponents(); // Menginisialisasi komponen GUI
         setLocationRelativeTo(null); // Memposisikan window di tengah layar
-        this.CUST_EMAIL = CUST_EMAIL; // Menyimpan email pelanggan
-    }
-    
-    public Menu() {
-        initComponents(); // Menginisialisasi komponen GUI
-        setLocationRelativeTo(null); // Memposisikan window di tengah layar
-        this.CUST_EMAIL = ""; // Menyimpan nilai default (kosong) untuk email pelanggan
+        this.CUST_EMAIL= CUST_EMAIL; // Menyimpan email pelanggan
     }
 
     /**
@@ -166,7 +161,9 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void MyProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyProfileButtonActionPerformed
-        // TODO add your handling code here:
+        ProfileUser DProf = new ProfileUser(CUST_EMAIL);
+        DProf.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_MyProfileButtonActionPerformed
 
     private void MyHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MyHistoryButtonActionPerformed
