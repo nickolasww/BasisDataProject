@@ -42,6 +42,7 @@ public class ProfileUser extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Failed to connect to the database.");
     }
 }
+    
 
     /**
      * Creates new form ProfileUser
@@ -437,7 +438,9 @@ public class ProfileUser extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonUpdateActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        this.setVisible(false);
+        Menu nextframe=new Menu();
+        nextframe.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
